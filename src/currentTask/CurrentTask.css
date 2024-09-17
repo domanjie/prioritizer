@@ -1,0 +1,22 @@
+.current-task-section-btn {
+  display: flex;
+  color: #27fb6b;
+  column-gap: 8px;
+  width: fit-content;
+  border: 1px solid #27fb6b;
+  padding: 10px 48px;
+  border-radius: 50px;
+  align-self: center;
+  margin-top: auto;
+  transition: all 250ms ease-in-out;
+}
+.current-task-section-btn:hover {
+  background-color: #27fb6b;
+  color: #3d3d3a;
+}
+.current-task-section-btn svg path {
+  transition: all 250ms ease-in-out;
+}
+.current-task-section-btn:hover svg path {
+  fill: #3d3d3a;
+}

@@ -1,0 +1,144 @@
+.ats-div .task-name-input {
+  width: 100%;
+  outline: none;
+  padding: 8px 15px;
+  padding-top: 12px;
+  background-color: #2b2b29;
+  color: #808080;
+  border-radius: 10px;
+  border: none;
+  font-size: 16px;
+}
+.range-input-background {
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(to right, #90ee90, #ff474c);
+  position: relative;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+.ats-div .range-input {
+  position: absolute;
+  width: 100%;
+  height: 5px;
+  background: none;
+}
+.range-monitor {
+  width: fit-content;
+  height: fit-content;
+  padding: 10px;
+  background-color: #2b2b29;
+  border-radius: 10px;
+}
+.ats-div {
+  display: flex;
+  flex-direction: column;
+  margin-top: 12px;
+  row-gap: 14px;
+  min-height: 100%;
+}
+.timer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.timer-div {
+  display: flex;
+  gap: 3px;
+}
+.timer-div-input {
+  background-color: #2b2b29;
+  padding: 10px;
+  width: 30px;
+  border-radius: 8px;
+  color: #808080;
+  font-size: 18px;
+}
+.timer-div-div {
+  display: flex;
+  align-items: end;
+}
+
+.submit-btn {
+  width: fit-content;
+  padding: 10px 28px;
+  align-self: center;
+  border-radius: 50px;
+  border: none;
+  font-family: "Roboto";
+  font-weight: 500;
+  color: #3d3d3a;
+  background-color: #fbd1a2;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding: 0;
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  -webkit-border-radius: 5px;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: #808080;
+}
+
+input[type="range"]::-moz-range-thumb {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -moz-border-radius: 5px;
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  background: #808080;
+}
+
+/*IE & Edge input*/
+
+input[type="range"]::-ms-track {
+  width: 300px;
+  height: 6px;
+  background: transparent;
+  border-color: transparent;
+  border-width: 2px 0;
+  color: transparent;
+}
+
+/*IE & Edge thumb*/
+
+input[type="range"]::-ms-thumb {
+  height: 14px;
+  width: 14px;
+  border-radius: 5px;
+  background: #808080;
+}
+
+/*IE & Edge left side*/
+
+input[type="range"]::-ms-fill-lower {
+  background: #919e4b;
+  border-radius: 2px;
+}
+
+/*IE & Edge right side*/
+
+input[type="range"]::-ms-fill-upper {
+  background: #c5c5c5;
+  border-radius: 2px;
+}
+
+/*IE disable tooltip*/
+
+input[type="range"]::-ms-tooltip {
+  display: none;
+}
+
+input[type="text"] {
+  border: none;
+}

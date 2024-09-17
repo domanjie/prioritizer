@@ -1,0 +1,78 @@
+.queue-card {
+  position: relative;
+  background-color: #2b2b29;
+  border-radius: 25px;
+  padding: 15px;
+}
+.queue-card-title {
+  color: white;
+}
+.queue-card-div {
+  display: flex;
+  align-items: center;
+  column-gap: 6px;
+  margin: 12px 0px;
+}
+.ellipsis-btn {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+}
+.task-queue-section {
+  padding: 20px;
+  padding-right: 10px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  overflow-y: scroll;
+}
+.task-queue-section::-webkit-scrollbar {
+  width: 5px;
+}
+/* Handle */
+.task-queue-section:hover::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+.task-queue-section::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.task-queue-section::-webkit-scrollbar-track-piece:end {
+  background: transparent;
+  margin-bottom: 36px;
+}
+.task-queue-section::-webkit-scrollbar-track-piece:start {
+  background: transparent;
+  margin-top: 36px;
+}
+
+.DDMenu {
+  display: flex;
+  color: white;
+  flex-direction: column;
+  font-weight: 400;
+  font-size: 13px;
+  position: absolute;
+  row-gap: -10px;
+  border-radius: 10px;
+  border: 1px solid #3d3d3a;
+  background-color: #2b2b29;
+  box-shadow: 0px 4px 4px 0px rgb(0 0 0 / 25%);
+  top: 15px;
+  transform: translateY(-10%);
+  transition: transform 200ms ease-in-out, opacity 200ms ease-in-out;
+  right: 35px;
+  opacity: 0;
+}
+.DDMenu button {
+  padding: 8px;
+  padding-right: 24px;
+}
+
+.drop-menu {
+  transform: translateY(0px);
+  opacity: 1;
+}
