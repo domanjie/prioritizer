@@ -1,3 +1,4 @@
+import { useCurrentTaskStore } from "../currentTask/useCurrentTaskStore"
 import BucketPriorityQueue from "../infra/BucketQueue"
 import { create } from "zustand"
 
@@ -12,5 +13,14 @@ export const useTaskStore = create((set) => ({
       newState.insert(val, priority)
       return { tasks: newState }
     }),
-  removeTask: (task, priority) => {},
+  pool: () => {
+    set((state) => {
+      let newState = Object.assign(
+        Object.create(Object.getPrototypeOf(state.tasks)),
+        state.tasks
+      )
+      newState.pool()
+      return { tasks: newState }
+    })
+  },
 }))

@@ -1,13 +1,21 @@
 import { GreenTick } from "../Icons"
 import Section from "../Section"
 import { Hourglass } from "../Icons"
+import "./CompletedTask.css"
+
 const CompletedTasks = () => {
+  const completedTasks = []
   return (
     <Section
       className={"completed-task-section"}
       TitleIco={<GreenTick />}
       title={"Completed tasks"}
     >
+      {completedTasks.length ? (
+        <></>
+      ) : (
+        <div className="fallback-div">Completed Tasks will appear here</div>
+      )}
       {/* <CompletedTaskCard />
       <CompletedTaskCard />
       <CompletedTaskCard /> */}

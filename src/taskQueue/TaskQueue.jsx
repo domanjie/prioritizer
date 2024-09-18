@@ -15,27 +15,32 @@ const TaskQueue = () => {
       className={"task-queue-section"}
       TitleIco={<QueueIcon />}
       title={"task queue "}
-      ref={parent}
     >
-      <div
-        style={{ display: "flex", flexDirection: "column", rowGap: "20px" }}
-        ref={parent}
-      >
-        {tasks.queue
-          .flatMap((bucket, priority) =>
-            bucket
-              ?.map((task, index) => (
-                <QueueCard
-                  key={priority + "" + index}
-                  taskName={task.taskName}
-                  priority={priority}
-                  timer={task.timer}
-                />
-              ))
-              .reverse()
-          )
-          .reverse()}
-      </div>
+      <>
+        {tasks.queue.length ? (
+          <div
+            style={{ display: "flex", flexDirection: "column", rowGap: "20px" }}
+            ref={parent}
+          >
+            {tasks.queue
+              .flatMap((bucket, priority) =>
+                bucket
+                  ?.map((task, index) => (
+                    <QueueCard
+                      key={priority + "" + index}
+                      taskName={task.taskName}
+                      priority={priority}
+                      timer={task.timer}
+                    />
+                  ))
+                  .reverse()
+              )
+              .reverse()}
+          </div>
+        ) : (
+          <div className="fallback-div">You have no Task in your queue</div>
+        )}
+      </>
     </Section>
   )
 }

@@ -2,11 +2,14 @@ import { useEffect, useRef, useState } from "react"
 import { Target, Hourglass, GreenTick } from "../Icons"
 import Section from "../Section"
 import "./CurrentTask.css"
+import { useTaskStore } from "../taskQueue/useTaskStore"
+import { useCurrentTaskStore } from "./useCurrentTaskStore"
 const CurrentTask = () => {
+  const { currentTask } = useCurrentTaskStore()
+
   let [time, setTimeLeft] = useState(7200)
-  const ref1 = useRef()
   useEffect(() => {
-    const id = setInterval(function () {
+    const id = setInterval(() => {
       setTimeLeft((t) => t - 1)
     }, 1000)
     return () => clearInterval(id)
@@ -20,45 +23,48 @@ const CurrentTask = () => {
       TitleIco={<Target />}
       title={"current task"}
     >
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          rowGap: "20px",
-          paddingTop: "20px",
-          height: "90%",
-        }}
-      >
-        <p className="queue-card-title">
-          Build A Webscraper for movies.mod Website
-        </p>
+      {currentTask ? (
         <div
           style={{
             display: "flex",
-            alignItems: "center",
-            columnGap: "6px",
+            flexDirection: "column",
+            rowGap: "20px",
+            height: "90%",
           }}
         >
-          <Hourglass /> <p>30 min</p>
+          <p className="queue-card-title">
+            Build A Webscraper for movies.mod Website
+          </p>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              columnGap: "6px",
+            }}
+          >
+            <Hourglass /> <p>30 min</p>
+          </div>
+          <div className="timer-div">
+            <div className="timer-div-div">
+              <div className="timer-div-input">{hr.charAt(0)}</div>
+              <div className="timer-div-input">{hr.charAt(1)}</div>h
+            </div>
+            <div className="timer-div-div">
+              <div className="timer-div-input">{min.charAt(0)}</div>
+              <div className="timer-div-input">{min.charAt(1)}</div>m
+            </div>
+            <div className="timer-div-div">
+              <div className="timer-div-input">{sec.charAt(0)}</div>
+              <div className="timer-div-input">{sec.charAt(1)}</div>s
+            </div>
+          </div>
+          <button className="current-task-section-btn">
+            Task Completed <GreenTick></GreenTick>
+          </button>
         </div>
-        <div className="timer-div">
-          <div className="timer-div-div">
-            <div className="timer-div-input">{hr.charAt(0)}</div>
-            <div className="timer-div-input">{hr.charAt(1)}</div>h
-          </div>
-          <div className="timer-div-div">
-            <div className="timer-div-input">{min.charAt(0)}</div>
-            <div className="timer-div-input">{min.charAt(1)}</div>m
-          </div>
-          <div className="timer-div-div">
-            <div className="timer-div-input">{sec.charAt(0)}</div>
-            <div className="timer-div-input">{sec.charAt(1)}</div>s
-          </div>
-        </div>
-        <button className="current-task-section-btn">
-          Task Completed <GreenTick></GreenTick>
-        </button>
-      </div>
+      ) : (
+        <div className="fallback-div">Your current Task will appear here</div>
+      )}
     </Section>
   )
 }

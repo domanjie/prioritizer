@@ -26,31 +26,13 @@ const QueueCard = ({ taskName, priority, timer }) => {
         <div
           style={{
             display: "flex",
-            columnGap: "3px",
+            columnGap: "8px",
             fontSize: "14px",
           }}
         >
-          {hr ? (
-            <>
-              <p>{hr}hrs</p>
-            </>
-          ) : (
-            ""
-          )}
-          {min ? (
-            <>
-              .<p>{min}min</p>
-            </>
-          ) : (
-            ""
-          )}
-          {sec ? (
-            <>
-              .<p>{sec}sec</p>
-            </>
-          ) : (
-            ""
-          )}
+          {hr ? <p>{hr}hrs</p> : ""}
+          {min ? <p>{min}min</p> : ""}
+          {sec ? <p>{sec}sec</p> : ""}
         </div>
       </div>
       <div

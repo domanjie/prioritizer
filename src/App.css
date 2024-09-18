@@ -41,3 +41,12 @@
 .add-task-section {
   grid-row: span 3;
 }
+.fallback-div {
+  background-color: #2b2b29;
+  padding: 12px;
+  border-radius: 10px;
+  width: fit-content;
+  align-self: center;
+  margin-top: 8px;
+  opacity: 0.6;
+}

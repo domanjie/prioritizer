@@ -24,6 +24,9 @@ const NewTask = () => {
       (newTask.sec1 ? parseInt(newTask.sec1) : 0)
 
     const totalTimeInSec = hr * 3600 + min * 60 + sec
+    if (totalTimeInSec <= 0) {
+      throw new Error("time limit not set")
+    }
     addTask(
       { taskName: newTask.taskName, timer: totalTimeInSec },
       newTask.priority
@@ -42,6 +45,7 @@ const NewTask = () => {
           type="text"
           placeholder="Task Name"
           required={true}
+          autoComplete="off"
         />
         <PriorityRange />
         <Timer></Timer>
