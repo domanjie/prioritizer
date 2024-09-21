@@ -2,9 +2,12 @@ import { GreenTick } from "../Icons"
 import Section from "../Section"
 import { Hourglass } from "../Icons"
 import "./CompletedTask.css"
+import { useCompletedTaskStore } from "../infra/hooks/useCompletedTaskStore"
+import { TimeDisplay } from "../taskQueue/QueueCard"
 
 const CompletedTasks = () => {
-  const completedTasks = []
+  const { completedTasks } = useCompletedTaskStore()
+  console.log(completedTasks)
   return (
     <Section
       className={"completed-task-section"}
@@ -12,13 +15,10 @@ const CompletedTasks = () => {
       title={"Completed tasks"}
     >
       {completedTasks.length ? (
-        <></>
+        completedTasks.map((task) => <CompletedTaskCard />)
       ) : (
         <div className="fallback-div">Completed Tasks will appear here</div>
       )}
-      {/* <CompletedTaskCard />
-      <CompletedTaskCard />
-      <CompletedTaskCard /> */}
     </Section>
   )
 }
@@ -26,17 +26,26 @@ export default CompletedTasks
 
 const CompletedTaskCard = () => {
   return (
-    <div className="queue-card">
-      <span className="queue-card-title">
-        Build A Webscraper for movies.mod Website
-      </span>
-      <div style={{ display: "inline", marginLeft: "10px" }}>
-        <Hourglass /> <span>30 min</span>
+    <div
+      className="card"
+      style={{ display: "flex", flexDirection: "column", rowGap: "8px" }}
+    >
+      <div className="queue-card-title">Build A Webscraper for movies.mod</div>
+      <div
+        style={{
+          fontSize: "14px",
+        }}
+      >
+        <Hourglass style={{ height: "11px" }} />{" "}
+        <TimeDisplay time={30}></TimeDisplay>
       </div>
-      <div>
-        <p>
-          Completed in: <span>30 min</span>
-        </p>
+      <div
+        className=""
+        style={{
+          fontSize: "14px",
+        }}
+      >
+        Completed in: <span>30 min</span>
       </div>
     </div>
   )

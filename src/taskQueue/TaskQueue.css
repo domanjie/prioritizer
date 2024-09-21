@@ -1,8 +1,4 @@
 .queue-card {
-  position: relative;
-  background-color: #2b2b29;
-  border-radius: 25px;
-  padding: 15px;
 }
 .queue-card-title {
   color: white;
@@ -10,7 +6,7 @@
 .queue-card-div {
   display: flex;
   align-items: center;
-  column-gap: 6px;
+  column-gap: 2px;
   margin: 12px 0px;
 }
 .ellipsis-btn {

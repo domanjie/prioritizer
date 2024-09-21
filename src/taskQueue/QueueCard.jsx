@@ -1,13 +1,10 @@
 import { useState } from "react"
 import { EllipsisVertical, Hourglass } from "../Icons"
 import DDMenu from "./DDMenu"
-const QueueCard = ({ taskName, priority, timer }) => {
-  const hr = parseInt(timer / 3600)
-  const min = parseInt((timer % 3600) / 60)
-  const sec = timer % 60
+const QueueCard = ({ taskName, priority, time }) => {
   const [showDDMenu, setShowDDMenu] = useState(false)
   return (
-    <div className="queue-card">
+    <div className=" card queue-card">
       <button
         className="ellipsis-btn"
         onClick={(e) => {
@@ -22,18 +19,8 @@ const QueueCard = ({ taskName, priority, timer }) => {
       )}
       <p className="queue-card-title">{taskName}</p>
       <div className="queue-card-div">
-        <Hourglass />
-        <div
-          style={{
-            display: "flex",
-            columnGap: "8px",
-            fontSize: "14px",
-          }}
-        >
-          {hr ? <p>{hr}hrs</p> : ""}
-          {min ? <p>{min}min</p> : ""}
-          {sec ? <p>{sec}sec</p> : ""}
-        </div>
+        <Hourglass style={{ height: "11px" }} />
+        <TimeDisplay time={time} style={{ fontSize: "14px" }} />
       </div>
       <div
         style={{
@@ -66,3 +53,43 @@ const QueueCard = ({ taskName, priority, timer }) => {
 }
 
 export default QueueCard
+
+export const TimeDisplay = ({ time: timeInSec, style }) => {
+  const hr = parseInt(timeInSec / 3600)
+  const min = parseInt((timeInSec % 3600) / 60)
+  const sec = timeInSec % 60
+  return (
+    <div
+      style={{
+        display: "flex",
+        columnGap: "4px",
+        ...style,
+      }}
+    >
+      {hr ? (
+        <p>
+          {hr}
+          <span style={{ fontSize: "12px" }}>hrs</span>
+        </p>
+      ) : (
+        ""
+      )}
+      {min ? (
+        <p>
+          {min}
+          <span style={{ fontSize: "12px" }}>min</span>
+        </p>
+      ) : (
+        ""
+      )}
+      {sec ? (
+        <p>
+          {sec}
+          <span style={{ fontSize: "12px" }}>sec</span>
+        </p>
+      ) : (
+        ""
+      )}
+    </div>
+  )
+}

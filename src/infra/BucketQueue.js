@@ -39,7 +39,11 @@ export default class BucketPriorityQueue {
     }
   }
   adjustMaxPriority() {
-    while (!this.queue[this.highestPriority]?.length) {
+    while (
+      !this.queue[this.highestPriority]?.length &&
+      this.highestPriority > -1
+    ) {
+      this.queue.length--
       this.highestPriority--
     }
   }

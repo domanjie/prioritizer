@@ -1,10 +1,13 @@
 import "./NewTask.css"
 import { EnqueueIcon } from "../Icons"
 import Section from "../Section"
-import Timer from "./Timer/Timer"
+import TimeInput from "./timeInput/TimeInput"
 import PriorityRange from "./PriorityRange"
-import { useTaskStore } from "../taskQueue/useTaskStore"
+import { useTaskStore } from "../infra/hooks/useTaskStore"
+import { useState } from "react"
 const NewTask = () => {
+  const [inputs, setInputs] = useState({})
+
   const { addTask } = useTaskStore()
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -28,10 +31,15 @@ const NewTask = () => {
       throw new Error("time limit not set")
     }
     addTask(
-      { taskName: newTask.taskName, timer: totalTimeInSec },
+      { taskName: newTask.taskName, time: totalTimeInSec },
       newTask.priority
     )
+    e.currentTarget.reset()
   }
+  const handleInput = (e) => {
+    return
+  }
+
   return (
     <Section
       className={"add-task-section"}
@@ -48,7 +56,7 @@ const NewTask = () => {
           autoComplete="off"
         />
         <PriorityRange />
-        <Timer></Timer>
+        <TimeInput></TimeInput>
         <button className="submit-btn">Add to Queue</button>
       </form>
     </Section>

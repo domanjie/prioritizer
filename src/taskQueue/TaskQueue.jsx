@@ -1,7 +1,7 @@
 import Section from "../Section"
 import { QueueIcon } from "../Icons"
 import "./TaskQueue.css"
-import { useTaskStore } from "./useTaskStore"
+import { useTaskStore } from "../infra/hooks/useTaskStore"
 import QueueCard from "./QueueCard"
 import { useAutoAnimate } from "@formkit/auto-animate/react"
 import { useState } from "react"
@@ -30,7 +30,7 @@ const TaskQueue = () => {
                       key={priority + "" + index}
                       taskName={task.taskName}
                       priority={priority}
-                      timer={task.timer}
+                      time={task.time}
                     />
                   ))
                   .reverse()

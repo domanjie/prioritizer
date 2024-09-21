@@ -54,7 +54,6 @@ function getLinearGradientCSS(ratio, leftColor, rightColor) {
 function updateRangeEl(rangeEl) {
   let value = rangeEl.value || rangeEl.defaultValue
   var ratio = valueTotalRatio(value, rangeEl.min, rangeEl.max)
-  console.log(getLinearGradientCSS(ratio, "rgba(0,0,0,0)", "#2b2b29"))
 
   rangeEl.style.backgroundImage = getLinearGradientCSS(
     ratio,
@@ -70,4 +69,18 @@ function initRangeEl(rangeInput, monitor) {
     updateRangeEl(e.target)
     monitor.textContent = e.target.value
   })
+}
+export function pickHex(weight) {
+  const color1 = [255, 71, 76]
+  const color2 = [144, 238, 144]
+  var p = weight
+  var w = p * 2 - 1
+  var w1 = (w / 1 + 1) / 2
+  var w2 = 1 - w1
+  var rgb = [
+    Math.round(color1[0] * w1 + color2[0] * w2),
+    Math.round(color1[1] * w1 + color2[1] * w2),
+    Math.round(color1[2] * w1 + color2[2] * w2),
+  ]
+  return rgb
 }

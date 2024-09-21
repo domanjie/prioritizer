@@ -71,7 +71,7 @@ export const EnqueueIcon = () => {
     </svg>
   )
 }
-export const Target = () => {
+export const Target = (props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -79,8 +79,9 @@ export const Target = () => {
       height="22"
       fill="none"
       viewBox="0 0 22 22"
+      {...props}
     >
-      <g fill="gray" clipPath="url(#clip0_321_2)">
+      <g fill="currentColor" clipPath="url(#clip0_321_2)">
         <path d="M10.988 16.662a5.68 5.68 0 01-5.675-5.674 5.68 5.68 0 015.675-5.675 5.68 5.68 0 015.674 5.675 5.68 5.68 0 01-5.674 5.674zm0-9.9a4.23 4.23 0 00-4.226 4.226 4.23 4.23 0 004.226 4.225 4.23 4.23 0 004.225-4.225 4.23 4.23 0 00-4.225-4.226z"></path>
         <path d="M10.988 11.712a.724.724 0 01-.512-1.237l5.144-5.144a.724.724 0 111.025 1.024L11.5 11.5a.722.722 0 01-.512.212z"></path>
         <path d="M17.855 1.179L15.83 3.207l.305 2.637 2.634.302 2.029-2.026-2.637-.304-.305-2.637z"></path>
@@ -95,7 +96,7 @@ export const Target = () => {
     </svg>
   )
 }
-export const Hourglass = () => {
+export const Hourglass = (props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -103,6 +104,7 @@ export const Hourglass = () => {
       height="14"
       fill="none"
       viewBox="0 0 13 14"
+      {...props}
     >
       <path
         fill="gray"
@@ -130,3 +132,38 @@ export const EllipsisVertical = () => {
     </svg>
   )
 }
+export const Begin = (props) => (
+  <svg
+    width={16}
+    height={20}
+    viewBox="0 0 16 20"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M14.4418 11.1488C15.1562 10.6332 15.1562 9.3443 14.4418 8.82862L8.52689 4.56006L2.61201 0.291491C1.89757 -0.224188 1.00452 0.420356 1.00452 1.45149V9.98884V18.5262C1.00452 19.5573 1.89757 20.2019 2.61201 19.6862L8.52689 15.4176L14.4418 11.1488Z"
+      fill="#27FB6B"
+    />
+  </svg>
+)
+
+export const PauseIco = (props) => (
+  <svg
+    width={13}
+    height={15}
+    viewBox="0 0 13 15"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M0 2C0 0.89543 0.895431 0 2 0C3.10457 0 4 0.895431 4 2V13C4 14.1046 3.10457 15 2 15C0.895431 15 0 14.1046 0 13V2Z"
+      fill="#808080"
+    />
+    <path
+      d="M9 2C9 0.89543 9.89543 0 11 0C12.1046 0 13 0.895431 13 2V13C13 14.1046 12.1046 15 11 15C9.89543 15 9 14.1046 9 13V2Z"
+      fill="#808080"
+    />
+  </svg>
+)

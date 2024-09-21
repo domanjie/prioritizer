@@ -42,10 +42,10 @@ const SeparatedInput = () => {
 
   return (
     <>
-      <div className="timer-div-div">
+      <div className="time-input-div-div">
         {hr.map((ref, index) => (
           <input
-            className="timer-div-input"
+            className="time-input-div-input"
             type="text"
             placeholder="0"
             maxLength={1}
@@ -56,10 +56,10 @@ const SeparatedInput = () => {
         ))}
         h
       </div>
-      <div className="timer-div-div">
+      <div className="time-input-div-div">
         {min.map((ref, index) => (
           <input
-            className="timer-div-input"
+            className="time-input-div-input"
             type="text"
             placeholder="0"
             maxLength={1}
@@ -70,10 +70,10 @@ const SeparatedInput = () => {
         ))}
         m
       </div>
-      <div className="timer-div-div">
+      <div className="time-input-div-div">
         {sec.map((ref, index) => (
           <input
-            className="timer-div-input"
+            className="time-input-div-input"
             type="text"
             placeholder="0"
             maxLength={1}
@@ -96,4 +96,5 @@ const specialKeys = new Set([
   "ArrowRight",
   "ArrowUp",
   "ArrowDown",
+  "Enter",
 ])
