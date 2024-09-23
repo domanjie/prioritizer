@@ -1,5 +1,5 @@
 import { useRef, useEffect } from "react"
-const SeparatedInput = () => {
+const SeparatedInput = ({ setInputs }) => {
   const inputRefArr = Array(6)
     .fill()
     .map(() => {
@@ -9,10 +9,15 @@ const SeparatedInput = () => {
     const inputs = inputRefArr.map((inputRef) => inputRef.current)
     for (let i = 0; i < inputs.length; i++) {
       inputs[i].addEventListener("keydown", function (event) {
-        if (!(/[0-9]/i.test(event.key) || specialKeys.has(event.key))) {
-          event.preventDefault()
+        if (specialKeys.has(event.key)) {
+          return
+        }
+
+        event.preventDefault()
+        if (!/[0-9]/i.test(event.key)) {
           return false
         }
+
         if (event.key === "Backspace") {
           inputs[i].value = ""
           if (i !== 0) inputs[i - 1].focus()
@@ -21,16 +26,13 @@ const SeparatedInput = () => {
         } else if (event.key === "ArrowRight") {
           if (i !== inputs.length - 1) inputs[i + 1].focus()
         } else {
-          if (i === inputs.length - 1 && inputs[i].value !== "") {
-            return true
-          } else if (event.keyCode > 47 && event.keyCode < 58) {
+          if (event.keyCode > 47 && event.keyCode < 58) {
             inputs[i].value = event.key
+            setInputs((inputs) => ({
+              ...inputs,
+              [event.target.name]: event.target.value,
+            }))
             if (i !== inputs.length - 1) inputs[i + 1].focus()
-            event.preventDefault()
-          } else if (event.keyCode > 64 && event.keyCode < 91) {
-            inputs[i].value = String.fromCharCode(event.keyCode)
-            if (i !== inputs.length - 1) inputs[i + 1].focus()
-            event.preventDefault()
           }
         }
       })

@@ -1,10 +1,10 @@
 import SeparatedInput from "./SeparatedInput"
-const TimeInput = () => {
+const TimeInput = ({ setInputs }) => {
   return (
     <div className="time-input">
       <p>Set Time</p>
       <div className="time-input-div">
-        <SeparatedInput></SeparatedInput>
+        <SeparatedInput setInputs={setInputs}></SeparatedInput>
       </div>
     </div>
   )

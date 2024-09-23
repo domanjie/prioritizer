@@ -4,7 +4,7 @@ import Section from "../Section"
 import "./CurrentTask.css"
 import { useTaskStore } from "../infra/hooks/useTaskStore"
 import { Begin, PauseIco } from "../Icons"
-import { pickHex } from "../newTask/PriorityRange"
+import { pickHex } from "../newTask/rangeInput/RangeInput"
 import { useCompletedTaskStore } from "../infra/hooks/useCompletedTaskStore"
 import { TimeDisplay } from "../taskQueue/QueueCard"
 const CurrentTask = () => {
@@ -24,9 +24,8 @@ const CurrentTask = () => {
     }, 1000)
     return () => clearInterval(id)
   }, [currentTask, isPaused])
-  let newTask
   const getNewTask = () => {
-    newTask = pool()
+    const newTask = pool()
     setCurrentTask(newTask)
     setTimeLeft(newTask?.time)
   }
@@ -43,7 +42,7 @@ const CurrentTask = () => {
         <Target
           style={{
             color: currentTask
-              ? "rgba(" + pickHex(0.6).join(",") + ")"
+              ? "rgba(" + pickHex(currentTask.priority / 100).join(",") + ")"
               : "gray",
           }}
         />

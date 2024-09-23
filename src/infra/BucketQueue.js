@@ -16,7 +16,10 @@ export default class BucketPriorityQueue {
   }
   pool() {
     if (this.highestPriority === -1) return undefined
-    const returnVal = this.queue[this.highestPriority]?.shift()
+    const returnVal = {
+      ...this.queue[this.highestPriority]?.shift(),
+      priority: this.highestPriority,
+    }
     this.adjustMaxPriority()
     return returnVal
   }

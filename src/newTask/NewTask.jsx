@@ -2,17 +2,26 @@ import "./NewTask.css"
 import { EnqueueIcon } from "../Icons"
 import Section from "../Section"
 import TimeInput from "./timeInput/TimeInput"
-import PriorityRange from "./PriorityRange"
+import PriorityRange from "./rangeInput/RangeInput"
 import { useTaskStore } from "../infra/hooks/useTaskStore"
 import { useState } from "react"
 const NewTask = () => {
-  const [inputs, setInputs] = useState({})
+  const defaults = {
+    taskName: "",
+    priority: 50,
+    hr0: 0,
+    hr1: 0,
+    min0: 0,
+    min1: 0,
+    sec0: 0,
+    sec1: 0,
+  }
+  const [inputs, setInputs] = useState(defaults)
 
   const { addTask } = useTaskStore()
   const handleSubmit = (e) => {
     e.preventDefault()
-    const formData = new FormData(e.currentTarget)
-    const newTask = Object.fromEntries(formData)
+    const newTask = inputs
 
     const hr =
       (newTask.hr0 ? parseInt(newTask.hr0) : 0) * 10 +
@@ -34,10 +43,10 @@ const NewTask = () => {
       { taskName: newTask.taskName, time: totalTimeInSec },
       newTask.priority
     )
-    e.currentTarget.reset()
   }
-  const handleInput = (e) => {
-    return
+  const handleChange = (e) => {
+    setInputs({ ...inputs, [e.target.name]: e.target.value })
+    console.log(inputs)
   }
 
   return (
@@ -51,12 +60,14 @@ const NewTask = () => {
           name="taskName"
           className="task-name-input"
           type="text"
+          value={inputs["taskName"]}
           placeholder="Task Name"
+          onChange={handleChange}
           required={true}
           autoComplete="off"
         />
-        <PriorityRange />
-        <TimeInput></TimeInput>
+        <PriorityRange handleChange={handleChange} inputs={inputs} />
+        <TimeInput setInputs={setInputs}></TimeInput>
         <button className="submit-btn">Add to Queue</button>
       </form>
     </Section>

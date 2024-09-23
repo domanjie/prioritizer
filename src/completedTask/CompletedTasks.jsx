@@ -15,7 +15,7 @@ const CompletedTasks = () => {
       title={"Completed tasks"}
     >
       {completedTasks.length ? (
-        completedTasks.map((task) => <CompletedTaskCard />)
+        completedTasks.map((task) => <CompletedTaskCard {...task} />)
       ) : (
         <div className="fallback-div">Completed Tasks will appear here</div>
       )}
@@ -24,20 +24,23 @@ const CompletedTasks = () => {
 }
 export default CompletedTasks
 
-const CompletedTaskCard = () => {
+const CompletedTaskCard = ({ taskName, time }) => {
   return (
     <div
       className="card"
       style={{ display: "flex", flexDirection: "column", rowGap: "8px" }}
     >
-      <div className="queue-card-title">Build A Webscraper for movies.mod</div>
+      <div className="queue-card-title">{taskName}</div>
       <div
         style={{
           fontSize: "14px",
+          display: "flex",
+          alignItems: "center",
+          rowGap: "2px",
         }}
       >
         <Hourglass style={{ height: "11px" }} />{" "}
-        <TimeDisplay time={30}></TimeDisplay>
+        <TimeDisplay time={time}></TimeDisplay>
       </div>
       <div
         className=""

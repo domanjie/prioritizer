@@ -1,22 +1,25 @@
-import { useRef, useEffect } from "react"
-
-const PriorityRange = () => {
-  const rangeRef = useRef()
-  const rangeMonitor = useRef()
-  useEffect(() => {
-    initRangeEl(rangeRef.current, rangeMonitor.current)
-  }, [])
+const RangeInput = ({ handleChange, inputs }) => {
   return (
     <div style={{ display: "flex", flexDirection: "column", rowGap: "8px" }}>
       <div className="range-input-background">
         <input
           name="priority"
-          ref={rangeRef}
           className="range-input"
           type="range"
+          onChange={(e) => {
+            handleChange(e)
+            updateRangeEl(e.target)
+          }}
           min="1"
           max="100"
-          defaultValue="50"
+          style={{
+            backgroundImage: getLinearGradientCSS(
+              0.5,
+              "rgba(0,0,0,0)",
+              "#2b2b29"
+            ),
+          }}
+          value={inputs["priority"]}
         />
       </div>
 
@@ -28,12 +31,12 @@ const PriorityRange = () => {
         }}
       >
         <p>Priority</p>
-        <div ref={rangeMonitor} className="range-monitor"></div>
+        <div className="range-monitor">{inputs["priority"]}</div>
       </div>
     </div>
   )
 }
-export default PriorityRange
+export default RangeInput
 
 function valueTotalRatio(value, min, max) {
   return ((value - min) / (max - min)).toFixed(2)
@@ -54,21 +57,11 @@ function getLinearGradientCSS(ratio, leftColor, rightColor) {
 function updateRangeEl(rangeEl) {
   let value = rangeEl.value || rangeEl.defaultValue
   var ratio = valueTotalRatio(value, rangeEl.min, rangeEl.max)
-
   rangeEl.style.backgroundImage = getLinearGradientCSS(
     ratio,
     "rgba(0,0,0,0)",
     "#2b2b29"
   )
-}
-
-function initRangeEl(rangeInput, monitor) {
-  updateRangeEl(rangeInput)
-  monitor.textContent = rangeInput.value || rangeInput.defaultValue
-  rangeInput.addEventListener("input", function (e) {
-    updateRangeEl(e.target)
-    monitor.textContent = e.target.value
-  })
 }
 export function pickHex(weight) {
   const color1 = [255, 71, 76]
