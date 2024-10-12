@@ -1,7 +1,8 @@
 import { useState } from "react"
 import { EllipsisVertical, Hourglass } from "../Icons"
 import DDMenu from "./DDMenu"
-const QueueCard = ({ taskName, priority, time }) => {
+
+const QueueCard = ({ taskName, priority, time, _id }) => {
   const [showDDMenu, setShowDDMenu] = useState(false)
   return (
     <div className=" card queue-card">
@@ -15,7 +16,11 @@ const QueueCard = ({ taskName, priority, time }) => {
         <EllipsisVertical></EllipsisVertical>
       </button>
       {showDDMenu && (
-        <DDMenu setShowDDMenu={setShowDDMenu} showDDMenu={showDDMenu}></DDMenu>
+        <DDMenu
+          id={_id}
+          setShowDDMenu={setShowDDMenu}
+          showDDMenu={showDDMenu}
+        ></DDMenu>
       )}
       <p className="queue-card-title">{taskName}</p>
       <div className="queue-card-div">

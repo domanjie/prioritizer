@@ -1,6 +1,5 @@
 .ats-div .task-name-input {
   width: 100%;
-  outline: none;
   padding: 8px 15px;
   padding-top: 12px;
   background-color: #2b2b29;
@@ -76,7 +75,6 @@ input[type="range"] {
   -moz-appearance: none;
   padding: 0;
   border-radius: 5px;
-  outline: none;
   cursor: pointer;
 }
 

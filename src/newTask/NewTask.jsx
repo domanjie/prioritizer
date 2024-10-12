@@ -1,11 +1,16 @@
 import "./NewTask.css"
+
 import { EnqueueIcon } from "../Icons"
 import Section from "../Section"
 import TimeInput from "./timeInput/TimeInput"
 import PriorityRange from "./rangeInput/RangeInput"
 import { useTaskStore } from "../infra/hooks/useTaskStore"
 import { useState } from "react"
+import { useMutation } from "@tanstack/react-query"
+import { a } from "../infra/axios"
+import { useQueryClient, QueryObserver } from "@tanstack/react-query"
 const NewTask = () => {
+  const queryClient = useQueryClient()
   const defaults = {
     taskName: "",
     priority: 50,
@@ -17,8 +22,13 @@ const NewTask = () => {
     sec1: 0,
   }
   const [inputs, setInputs] = useState(defaults)
-
-  const { addTask } = useTaskStore()
+  const addTasks = useMutation({
+    mutationFn: (task) => {
+      a.post("/api/v1/task", task).then(() => {
+        queryClient.invalidateQueries("tasks")
+      })
+    },
+  })
   const handleSubmit = (e) => {
     e.preventDefault()
     const newTask = inputs
@@ -39,14 +49,16 @@ const NewTask = () => {
     if (totalTimeInSec <= 0) {
       throw new Error("time limit not set")
     }
-    addTask(
-      { taskName: newTask.taskName, time: totalTimeInSec },
-      newTask.priority
-    )
+    addTasks.mutate({
+      taskName: newTask.taskName,
+      time: parseInt(totalTimeInSec),
+      priority: parseInt(newTask.priority),
+    })
+    setInputs({ ...defaults })
+    e.currentTarget.reset()
   }
   const handleChange = (e) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value })
-    console.log(inputs)
   }
 
   return (

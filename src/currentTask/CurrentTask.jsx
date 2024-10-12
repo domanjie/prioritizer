@@ -1,39 +1,29 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { Target, Hourglass, GreenTick } from "../Icons"
 import Section from "../Section"
 import "./CurrentTask.css"
-import { useTaskStore } from "../infra/hooks/useTaskStore"
 import { Begin, PauseIco } from "../Icons"
 import { pickHex } from "../newTask/rangeInput/RangeInput"
 import { useCompletedTaskStore } from "../infra/hooks/useCompletedTaskStore"
 import { TimeDisplay } from "../taskQueue/QueueCard"
-const CurrentTask = () => {
-  const { pool, tasks } = useTaskStore()
-  const { addCompletedTask } = useCompletedTaskStore()
-  const [currentTask, setCurrentTask] = useState(null)
-  const [time, setTimeLeft] = useState(null)
-  const [isPaused, setIsPaused] = useState(false)
+import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { useTaskStore } from "../infra/hooks/useTaskStore"
 
-  useEffect(() => {
-    if (isPaused) return
-    const id = setInterval(() => {
-      setTimeLeft((t) => {
-        if (t > 0) return t - 1
-        return 0
-      })
-    }, 1000)
-    return () => clearInterval(id)
-  }, [currentTask, isPaused])
-  const getNewTask = () => {
-    const newTask = pool()
-    setCurrentTask(newTask)
-    setTimeLeft(newTask?.time)
+const CurrentTask = () => {
+  const { currentTask, setCurrentTask, isPaused, setIsPaused } =
+    useCurrentTask()
+  const { tasks } = useTaskStore()
+  const { addCompletedTask } = useCompletedTaskStore()
+  const nextTask = tasks?.[0]
+  const startNextTask = () => {
+    setCurrentTask({ ...nextTask, timeLeft: nextTask.time })
+    setIsPaused(false)
   }
   const completeTask = () => {
     addCompletedTask(currentTask)
-    getNewTask()
+    startNextTask()
   }
-  const [hr, min, sec] = convertSecs(time)
+  const [hr, min, sec] = convertSecs(currentTask?.timeLeft)
 
   return (
     <Section
@@ -67,8 +57,8 @@ const CurrentTask = () => {
       ) : (
         <button
           className="cts-begin-btn"
-          style={{ opacity: tasks.queue.length ? "1" : "0.6" }}
-          onClick={getNewTask}
+          style={{ opacity: nextTask ? "1" : "0.6" }}
+          onClick={startNextTask}
         >
           <Begin></Begin>
         </button>
@@ -127,4 +117,29 @@ const convertSecs = (secIn) => {
   let sec = parseInt(secIn % 60, 10)
   if (sec < 10) sec = "0" + sec
   return [hr + "", min + "", sec + ""]
+}
+const useCurrentTask = () => {
+  const [currentTask, setCurrentTask] = useState(getStoredTask)
+  const [isPaused, setIsPaused] = useState(true)
+
+  useEffect(() => {
+    if (isPaused) return
+    const id = setInterval(() => {
+      setCurrentTask((prevTask) => {
+        const timeLeft = prevTask.timeLeft
+        return { ...prevTask, timeLeft: timeLeft > 0 ? timeLeft - 1 : 0 }
+      })
+    }, 1000)
+    return () => clearInterval(id)
+  }, [currentTask, isPaused])
+
+  useEffect(() => {
+    window.onbeforeunload = () => {
+      localStorage.setItem("currentTask", JSON.stringify(currentTask))
+    }
+  })
+  return { currentTask, setCurrentTask, isPaused, setIsPaused }
+}
+const getStoredTask = () => {
+  return JSON.parse(localStorage.getItem("currentTask"))
 }

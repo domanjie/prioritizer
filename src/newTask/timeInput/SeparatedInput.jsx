@@ -9,15 +9,10 @@ const SeparatedInput = ({ setInputs }) => {
     const inputs = inputRefArr.map((inputRef) => inputRef.current)
     for (let i = 0; i < inputs.length; i++) {
       inputs[i].addEventListener("keydown", function (event) {
-        if (specialKeys.has(event.key)) {
+        if (event.key === "Tab" || event.key === "Enter") {
           return
         }
-
         event.preventDefault()
-        if (!/[0-9]/i.test(event.key)) {
-          return false
-        }
-
         if (event.key === "Backspace") {
           inputs[i].value = ""
           if (i !== 0) inputs[i - 1].focus()
@@ -90,13 +85,3 @@ const SeparatedInput = ({ setInputs }) => {
   )
 }
 export default SeparatedInput
-
-const specialKeys = new Set([
-  "Backspace",
-  "Tab",
-  "ArrowLeft",
-  "ArrowRight",
-  "ArrowUp",
-  "ArrowDown",
-  "Enter",
-])

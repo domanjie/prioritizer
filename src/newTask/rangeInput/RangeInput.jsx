@@ -6,15 +6,12 @@ const RangeInput = ({ handleChange, inputs }) => {
           name="priority"
           className="range-input"
           type="range"
-          onChange={(e) => {
-            handleChange(e)
-            updateRangeEl(e.target)
-          }}
+          onChange={handleChange}
           min="1"
           max="100"
           style={{
             backgroundImage: getLinearGradientCSS(
-              0.5,
+              inputs["priority"] / 100,
               "rgba(0,0,0,0)",
               "#2b2b29"
             ),
@@ -54,15 +51,6 @@ function getLinearGradientCSS(ratio, leftColor, rightColor) {
   ].join("")
 }
 
-function updateRangeEl(rangeEl) {
-  let value = rangeEl.value || rangeEl.defaultValue
-  var ratio = valueTotalRatio(value, rangeEl.min, rangeEl.max)
-  rangeEl.style.backgroundImage = getLinearGradientCSS(
-    ratio,
-    "rgba(0,0,0,0)",
-    "#2b2b29"
-  )
-}
 export function pickHex(weight) {
   const color1 = [255, 71, 76]
   const color2 = [144, 238, 144]
