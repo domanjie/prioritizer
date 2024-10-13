@@ -6,17 +6,26 @@ import { Begin, PauseIco } from "../Icons"
 import { pickHex } from "../newTask/rangeInput/RangeInput"
 import { useCompletedTaskStore } from "../infra/hooks/useCompletedTaskStore"
 import { TimeDisplay } from "../taskQueue/QueueCard"
-import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { useTaskStore } from "../infra/hooks/useTaskStore"
+import { useQueryClient, useMutation } from "@tanstack/react-query"
+import { a } from "../infra/axios"
 
 const CurrentTask = () => {
+  const queryClient = useQueryClient()
+
   const { currentTask, setCurrentTask, isPaused, setIsPaused } =
     useCurrentTask()
   const { tasks } = useTaskStore()
   const { addCompletedTask } = useCompletedTaskStore()
   const nextTask = tasks?.[0]
-  const startNextTask = () => {
+  const startNextTask = async () => {
+    if (!nextTask) {
+      setCurrentTask(null)
+    }
+    console.log(nextTask)
+    await a.delete(`api/v1/task/${nextTask._id}`)
     setCurrentTask({ ...nextTask, timeLeft: nextTask.time })
+    queryClient.invalidateQueries("tasks")
     setIsPaused(false)
   }
   const completeTask = () => {
@@ -123,7 +132,7 @@ const useCurrentTask = () => {
   const [isPaused, setIsPaused] = useState(true)
 
   useEffect(() => {
-    if (isPaused) return
+    if (isPaused || !currentTask) return
     const id = setInterval(() => {
       setCurrentTask((prevTask) => {
         const timeLeft = prevTask.timeLeft

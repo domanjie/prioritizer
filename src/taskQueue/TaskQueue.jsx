@@ -9,7 +9,7 @@ import { useTaskStore } from "../infra/hooks/useTaskStore"
 const TaskQueue = () => {
   const [parent] = useAutoAnimate()
 
-  const { tasks, setTasks } = useTaskStore()
+  const { setTasks } = useTaskStore()
   const tasksQuery = useQuery(["tasks"], {
     queryFn: async () => {
       const response = await a.get("/api/v1/task")
