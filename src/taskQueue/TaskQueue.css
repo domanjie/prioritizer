@@ -1,5 +1,3 @@
-.queue-card {
-}
 .queue-card-title {
   color: white;
   padding-right: 20px;
@@ -27,29 +25,6 @@
   row-gap: 20px;
   overflow-y: scroll;
 }
-.task-queue-section::-webkit-scrollbar {
-  width: 5px;
-}
-/* Handle */
-.task-queue-section:hover::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 5px;
-}
-
-/* Handle on hover */
-.task-queue-section::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
-.task-queue-section::-webkit-scrollbar-track-piece:end {
-  background: transparent;
-  margin-bottom: 36px;
-}
-.task-queue-section::-webkit-scrollbar-track-piece:start {
-  background: transparent;
-  margin-top: 36px;
-}
-
 .DDMenu {
   display: flex;
   color: white;

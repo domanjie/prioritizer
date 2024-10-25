@@ -98,3 +98,25 @@
   background-color: #fbd1a2;
   color: #2b2b29;
 }
+.section::-webkit-scrollbar {
+  width: 5px;
+}
+/* Handle */
+.section:hover::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+.section::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.section::-webkit-scrollbar-track-piece:end {
+  background: transparent;
+  margin-bottom: 36px;
+}
+.section::-webkit-scrollbar-track-piece:start {
+  background: transparent;
+  margin-top: 36px;
+}

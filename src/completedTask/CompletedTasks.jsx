@@ -7,7 +7,6 @@ import { TimeDisplay } from "../taskQueue/QueueCard"
 
 const CompletedTasks = () => {
   const { completedTasks } = useCompletedTaskStore()
-  console.log(completedTasks)
   return (
     <Section
       className={"completed-task-section"}

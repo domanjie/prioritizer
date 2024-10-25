@@ -9,31 +9,67 @@ import { TimeDisplay } from "../taskQueue/QueueCard"
 import { useTaskStore } from "../infra/hooks/useTaskStore"
 import { useQueryClient, useMutation } from "@tanstack/react-query"
 import { a } from "../infra/axios"
+import Timer from "../infra/Timer"
 
 const CurrentTask = () => {
   const queryClient = useQueryClient()
-
-  const { currentTask, setCurrentTask, isPaused, setIsPaused } =
-    useCurrentTask()
+  const [streak, setStreak] = useState(0)
+  const [currentTask, setCurrentTask] = useState(getStoredTask)
+  const [timeLeft, setTimeLeft] = useState(getStoredTimeLeft) //(getStoredTimeLeft)
+  const [isPaused, setIsPaused] = useState(true)
   const { tasks } = useTaskStore()
   const { addCompletedTask } = useCompletedTaskStore()
   const nextTask = tasks?.[0]
+
+  // set streak to zero if no next task or current task time has elapsed
+  if (streak) {
+    timeLeft || setStreak(0)
+  }
+  const pauseTimer = () => {
+    currentTask.timer.stop()
+    setIsPaused(true)
+  }
+  const resumeTimer = () => {
+    currentTask.timer.start()
+    setIsPaused(false)
+  }
+
+  useEffect(() => {
+    if (!currentTask) {
+      return
+    }
+    let id = setInterval(() => {
+      setTimeLeft(currentTask.timer.getTime() / 1000)
+    }, 100)
+    const handleBeforeunload = () => {
+      pauseTimer()
+      localStorage.setItem("currentTask", JSON.stringify(currentTask))
+    }
+    window.addEventListener("beforeunload", handleBeforeunload)
+    return () => {
+      clearInterval(id)
+      window.removeEventListener("beforeunload", handleBeforeunload)
+    }
+  }, [currentTask])
+
   const startNextTask = async () => {
     if (!nextTask) {
       setCurrentTask(null)
     }
-    console.log(nextTask)
     await a.delete(`api/v1/task/${nextTask._id}`)
-    setCurrentTask({ ...nextTask, timeLeft: nextTask.time })
     queryClient.invalidateQueries("tasks")
+    const task = { ...nextTask, timer: new Timer(nextTask.time * 1000) }
+    setCurrentTask(task)
+    task.timer.start()
     setIsPaused(false)
   }
-  const completeTask = () => {
+  const completeTask = async () => {
     addCompletedTask(currentTask)
-    startNextTask()
+    await startNextTask()
+    setStreak((streak) => streak + 1)
   }
-  const [hr, min, sec] = convertSecs(currentTask?.timeLeft)
 
+  const [hr, min, sec] = convertSecs(timeLeft)
   return (
     <Section
       className={"current-task-section"}
@@ -51,13 +87,13 @@ const CurrentTask = () => {
       {currentTask ? (
         <>
           <button
-            onClick={() => setIsPaused(true)}
+            onClick={pauseTimer}
             className={`cts-begin-btn  ${isPaused && "inactive"}`}
           >
             <PauseIco></PauseIco>
           </button>
           <button
-            onClick={() => setIsPaused(false)}
+            onClick={resumeTimer}
             className={`cts-begin-btn  ${!isPaused && "inactive"}`}
           >
             <Begin></Begin>
@@ -74,14 +110,7 @@ const CurrentTask = () => {
       )}
 
       {currentTask ? (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            rowGap: "20px",
-            height: "90%",
-          }}
-        >
+        <div className="cts-div">
           <p className="queue-card-title">{currentTask.taskName}</p>
           <div
             style={{
@@ -105,7 +134,12 @@ const CurrentTask = () => {
               <div className="time-input-div-input">{sec.charAt(0)}</div>
               <div className="time-input-div-input">{sec.charAt(1)}</div>s
             </div>
+            <Streak
+              streak={streak}
+              percentTimeLeft={(timeLeft / currentTask.time) * 100}
+            ></Streak>
           </div>
+
           <button onClick={completeTask} className="current-task-section-btn">
             Task Completed <GreenTick></GreenTick>
           </button>
@@ -127,28 +161,30 @@ const convertSecs = (secIn) => {
   if (sec < 10) sec = "0" + sec
   return [hr + "", min + "", sec + ""]
 }
-const useCurrentTask = () => {
-  const [currentTask, setCurrentTask] = useState(getStoredTask)
-  const [isPaused, setIsPaused] = useState(true)
-
-  useEffect(() => {
-    if (isPaused || !currentTask) return
-    const id = setInterval(() => {
-      setCurrentTask((prevTask) => {
-        const timeLeft = prevTask.timeLeft
-        return { ...prevTask, timeLeft: timeLeft > 0 ? timeLeft - 1 : 0 }
-      })
-    }, 1000)
-    return () => clearInterval(id)
-  }, [currentTask, isPaused])
-
-  useEffect(() => {
-    window.onbeforeunload = () => {
-      localStorage.setItem("currentTask", JSON.stringify(currentTask))
-    }
-  })
-  return { currentTask, setCurrentTask, isPaused, setIsPaused }
-}
 const getStoredTask = () => {
-  return JSON.parse(localStorage.getItem("currentTask"))
+  const storedTask = JSON.parse(localStorage.getItem("currentTask"))
+  const timer = storedTask.timer
+  Object.setPrototypeOf(timer, Timer.prototype)
+  return { ...storedTask, timer: timer }
+}
+const getStoredTimeLeft = () => {
+  return getStoredTask().timer.getTime() / 1000
+}
+
+const Streak = ({ streak, percentTimeLeft }) => {
+  return (
+    <section className="streak" title="streak">
+      <div className="streak-bar">
+        <div
+          className="streak-bar-ind"
+          style={{
+            height: `${percentTimeLeft}%`,
+          }}
+        >
+          <div className="streak-bar-ind-bg" />
+        </div>
+      </div>
+      <div>x{streak}</div>
+    </section>
+  )
 }
