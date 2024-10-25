@@ -15,6 +15,10 @@ const SeparatedInput = ({ setInputs }) => {
         event.preventDefault()
         if (event.key === "Backspace") {
           inputs[i].value = ""
+          setInputs((inputs) => ({
+            ...inputs,
+            [event.target.name]: event.target.value,
+          }))
           if (i !== 0) inputs[i - 1].focus()
         } else if (event.key === "ArrowLeft") {
           if (i !== 0) inputs[i - 1].focus()
