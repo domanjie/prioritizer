@@ -1,6 +1,10 @@
+.completed-task-section-div,
 .completed-task-section {
   display: flex;
   flex-direction: column;
   row-gap: 20px;
+}
+
+.completed-task-section {
   overflow-y: scroll;
 }

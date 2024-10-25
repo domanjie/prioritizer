@@ -4,20 +4,27 @@ import { Hourglass } from "../Icons"
 import "./CompletedTask.css"
 import { useCompletedTaskStore } from "../infra/hooks/useCompletedTaskStore"
 import { TimeDisplay } from "../taskQueue/QueueCard"
+import { useAutoAnimate } from "@formkit/auto-animate/react"
 
 const CompletedTasks = () => {
   const { completedTasks } = useCompletedTaskStore()
+  const [parent] = useAutoAnimate()
+  console.log(completedTasks)
   return (
     <Section
       className={"completed-task-section"}
       TitleIco={<GreenTick />}
       title={"Completed tasks"}
     >
-      {completedTasks.length ? (
-        completedTasks.map((task) => <CompletedTaskCard {...task} />)
-      ) : (
-        <div className="fallback-div">Completed Tasks will appear here</div>
-      )}
+      <div className="completed-task-section-div" ref={parent}>
+        {completedTasks.length ? (
+          completedTasks.map((task) => (
+            <CompletedTaskCard key={task._id} {...task} />
+          ))
+        ) : (
+          <div className="fallback-div">Completed Tasks will appear here</div>
+        )}
+      </div>
     </Section>
   )
 }
@@ -42,7 +49,6 @@ const CompletedTaskCard = ({ taskName, time }) => {
         <TimeDisplay time={time}></TimeDisplay>
       </div>
       <div
-        className=""
         style={{
           fontSize: "14px",
         }}
