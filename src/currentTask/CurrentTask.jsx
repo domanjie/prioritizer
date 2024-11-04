@@ -38,17 +38,21 @@ const CurrentTask = () => {
     if (!currentTask) {
       return
     }
-    let id = setInterval(() => {
+    const id = setInterval(() => {
       setTimeLeft(currentTask.timer.getTime() / 1000)
     }, 100)
-    const handleBeforeunload = () => {
-      pauseTimer()
-      localStorage.setItem("currentTask", JSON.stringify(currentTask))
-    }
-    window.addEventListener("beforeunload", handleBeforeunload)
+
     return () => {
       clearInterval(id)
-      window.removeEventListener("beforeunload", handleBeforeunload)
+    }
+  }, [currentTask])
+
+  useEffect(() => {
+    window.onbeforeunload = () => {
+      if (currentTask) {
+        pauseTimer()
+      }
+      localStorage.setItem("currentTask", JSON.stringify(currentTask))
     }
   }, [currentTask])
 
@@ -111,7 +115,7 @@ const CurrentTask = () => {
 
       {currentTask ? (
         <div className="cts-div">
-          <p className="queue-card-title">{currentTask.taskName}</p>
+          <p className="card-title">{currentTask.taskName}</p>
           <div
             style={{
               display: "flex",
@@ -163,12 +167,15 @@ const convertSecs = (secIn) => {
 }
 const getStoredTask = () => {
   const storedTask = JSON.parse(localStorage.getItem("currentTask"))
+  if (!storedTask) {
+    return null
+  }
   const timer = storedTask.timer
   Object.setPrototypeOf(timer, Timer.prototype)
   return { ...storedTask, timer: timer }
 }
 const getStoredTimeLeft = () => {
-  return getStoredTask().timer.getTime() / 1000
+  return getStoredTask()?.timer?.getTime() / 1000
 }
 
 const Streak = ({ streak, percentTimeLeft }) => {

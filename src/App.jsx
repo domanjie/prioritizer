@@ -36,7 +36,12 @@ const TopMenu = () => {
       <button className="top-menu-btn login-btn">
         <LoginIco></LoginIco>Login
       </button>
-      <button className=" top-menu-btn sing-up-btn">
+      <button
+        onClick={() => {
+          google.accounts.id.prompt()
+        }}
+        className=" top-menu-btn sing-up-btn"
+      >
         <SingUpIcon></SingUpIcon>Sing up
       </button>
     </div>

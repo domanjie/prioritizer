@@ -32,28 +32,13 @@ export default CompletedTasks
 
 const CompletedTaskCard = ({ taskName, time }) => {
   return (
-    <div
-      className="card"
-      style={{ display: "flex", flexDirection: "column", rowGap: "8px" }}
-    >
-      <div className="queue-card-title">{taskName}</div>
-      <div
-        style={{
-          fontSize: "14px",
-          display: "flex",
-          alignItems: "center",
-          rowGap: "2px",
-        }}
-      >
-        <Hourglass style={{ height: "11px" }} />{" "}
-        <TimeDisplay time={time}></TimeDisplay>
+    <div className="card">
+      <div className="card-title">{taskName}</div>
+      <div className="card-div" style={{ margin: "8px 0px" }}>
+        <Hourglass /> <TimeDisplay time={time}></TimeDisplay>
       </div>
-      <div
-        style={{
-          fontSize: "14px",
-        }}
-      >
-        Completed in: <span>30 min</span>
+      <div>
+        completed in: <span>30min</span>
       </div>
     </div>
   )

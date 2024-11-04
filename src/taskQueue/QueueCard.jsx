@@ -5,7 +5,7 @@ import DDMenu from "./DDMenu"
 const QueueCard = ({ taskName, priority, time, _id }) => {
   const [showDDMenu, setShowDDMenu] = useState(false)
   return (
-    <div className=" card queue-card">
+    <div className="card">
       <button
         className="ellipsis-btn"
         onClick={(e) => {
@@ -22,10 +22,10 @@ const QueueCard = ({ taskName, priority, time, _id }) => {
           showDDMenu={showDDMenu}
         ></DDMenu>
       )}
-      <p className="queue-card-title">{taskName}</p>
-      <div className="queue-card-div">
+      <p className="card-title">{taskName}</p>
+      <div className="card-div">
         <Hourglass style={{ height: "11px" }} />
-        <TimeDisplay time={time} style={{ fontSize: "14px" }} />
+        <TimeDisplay time={time} />
       </div>
       <div
         style={{
