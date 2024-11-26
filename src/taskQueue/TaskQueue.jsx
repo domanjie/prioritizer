@@ -3,20 +3,27 @@ import { QueueIcon } from "../Icons"
 import "./TaskQueue.css"
 import QueueCard from "./QueueCard"
 import { useAutoAnimate } from "@formkit/auto-animate/react"
-import { a } from "../infra/axios"
 import { useQuery } from "@tanstack/react-query"
 import { useTaskStore } from "../infra/hooks/useTaskStore"
+import useAuthStore from "../infra/hooks/useAuthStore"
+import { useEffect } from "react"
+import { useAxios } from "../infra/hooks/useAxios"
 const TaskQueue = () => {
   const [parent] = useAutoAnimate()
-
-  const { setTasks } = useTaskStore()
+  const { tasks, setTasks } = useTaskStore()
+  const { isSignedIn } = useAuthStore()
+  const a = useAxios()
   const tasksQuery = useQuery(["tasks"], {
     queryFn: async () => {
       const response = await a.get("/api/v1/task")
-      setTasks(response.data)
       return response.data
     },
   })
+  useEffect(() => {
+    if (isSignedIn) {
+      setTasks(tasksQuery.data || [])
+    }
+  }, [tasksQuery.data])
 
   return (
     <Section
@@ -25,13 +32,13 @@ const TaskQueue = () => {
       title={"task queue "}
     >
       <>
-        {tasksQuery.data?.length ? (
+        {tasks?.length ? (
           <div
             style={{ display: "flex", flexDirection: "column", rowGap: "20px" }}
             ref={parent}
           >
-            {tasksQuery.data?.map((task) => (
-              <QueueCard key={task._id} {...task} />
+            {tasks?.map((task) => (
+              <QueueCard key={task.createdAt} {...task} />
             ))}
           </div>
         ) : (

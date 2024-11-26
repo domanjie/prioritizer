@@ -9,8 +9,11 @@ import { useState } from "react"
 import { useMutation } from "@tanstack/react-query"
 import { a } from "../infra/axios"
 import { useQueryClient, QueryObserver } from "@tanstack/react-query"
+import useAuthStore from "../infra/hooks/useAuthStore"
 const NewTask = () => {
   const queryClient = useQueryClient()
+  const { addTask } = useTaskStore()
+  const { isSignedIn } = useAuthStore()
   const defaults = {
     taskName: "",
     priority: 50,
@@ -23,15 +26,16 @@ const NewTask = () => {
   }
   const [inputs, setInputs] = useState(defaults)
   const addTasks = useMutation({
-    mutationFn: (task) => {
+    mutationFn: async (task) => {
       a.post("/api/v1/task", task).then(() => {
         queryClient.invalidateQueries("tasks")
       })
     },
   })
+
   const handleSubmit = (e) => {
     e.preventDefault()
-    const newTask = inputs
+    let newTask = inputs
 
     const hr =
       (newTask.hr0 ? parseInt(newTask.hr0) : 0) * 10 +
@@ -47,13 +51,20 @@ const NewTask = () => {
 
     const totalTimeInSec = hr * 3600 + min * 60 + sec
     if (totalTimeInSec <= 0) {
-      throw new Error("time limit not set")
+      console.error("time limit nost set")
+      return
     }
-    addTasks.mutate({
+    newTask = {
       taskName: newTask.taskName,
       time: parseInt(totalTimeInSec),
       priority: parseInt(newTask.priority),
-    })
+      createdAt: Date.now(),
+    }
+    if (isSignedIn) {
+      addTasks.mutate(newTask)
+    } else {
+      addTask(newTask)
+    }
     setInputs({ ...defaults })
     e.currentTarget.reset()
   }

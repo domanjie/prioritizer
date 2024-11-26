@@ -1,0 +1,22 @@
+import { useEffect } from "react"
+import { a } from "../axios"
+import useAuthStore from "./useAuthStore"
+
+export const useAxios = () => {
+  const { setIsSignedIn } = useAuthStore()
+  useEffect(() => {
+    const responseInterceptor = a.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (error?.response?.status === 401) {
+          setIsSignedIn(false)
+        }
+        return Promise.reject(error)
+      }
+    )
+    return () => {
+      a.interceptors.response.eject(responseInterceptor)
+    }
+  }, [])
+  return a
+}

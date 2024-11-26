@@ -9,7 +9,6 @@ import { useAutoAnimate } from "@formkit/auto-animate/react"
 const CompletedTasks = () => {
   const { completedTasks } = useCompletedTaskStore()
   const [parent] = useAutoAnimate()
-  console.log(completedTasks)
   return (
     <Section
       className={"completed-task-section"}
@@ -19,7 +18,7 @@ const CompletedTasks = () => {
       <div className="completed-task-section-div" ref={parent}>
         {completedTasks.length ? (
           completedTasks.map((task) => (
-            <CompletedTaskCard key={task._id} {...task} />
+            <CompletedTaskCard key={task._id || task.createdAt} {...task} />
           ))
         ) : (
           <div className="fallback-div">Completed Tasks will appear here</div>

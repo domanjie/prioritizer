@@ -97,25 +97,3 @@ export const TimeDisplay = ({ time: timeInSec, style }) => {
     </div>
   )
 }
-
-const GradientDisplay = ({ value }) => {
-  return (
-    <div
-      style={{
-        borderRadius: "10px",
-        width: `${value}%`,
-        overflow: "hidden",
-      }}
-    >
-      <div
-        style={{
-          height: "5px",
-          background: "linear-gradient(to right, #90ee90, #ff474c)",
-          borderRadius: "10px",
-          overflow: "hidden",
-          width: "100cqw",
-        }}
-      ></div>
-    </div>
-  )
-}

@@ -26,7 +26,7 @@
   row-gap: 20px;
   position: relative;
 }
-.cts-begin-btn {
+.ctc-btn {
   position: absolute;
   top: 20px;
   right: 20px;
@@ -46,12 +46,12 @@
   height: 90%;
 }
 
-.cts-begin-btn svg {
+.ctc-btn svg {
   width: 16px;
   height: 16px;
 }
 
-.cts-begin-btn.inactive {
+.ctc-btn.inactive {
   opacity: 0;
   visibility: hidden;
 }
