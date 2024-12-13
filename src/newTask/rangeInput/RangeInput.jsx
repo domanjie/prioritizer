@@ -35,10 +35,6 @@ const RangeInput = ({ handleChange, inputs }) => {
 }
 export default RangeInput
 
-function valueTotalRatio(value, min, max) {
-  return ((value - min) / (max - min)).toFixed(2)
-}
-
 function getLinearGradientCSS(ratio, leftColor, rightColor) {
   return [
     "-webkit-gradient(",
@@ -54,9 +50,7 @@ function getLinearGradientCSS(ratio, leftColor, rightColor) {
 export function pickHex(weight) {
   const color1 = [255, 71, 76]
   const color2 = [144, 238, 144]
-  var p = weight
-  var w = p * 2 - 1
-  var w1 = (w / 1 + 1) / 2
+  var w1 = weight
   var w2 = 1 - w1
   var rgb = [
     Math.round(color1[0] * w1 + color2[0] * w2),

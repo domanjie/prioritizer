@@ -47,6 +47,7 @@ const SeparatedInput = ({ setInputs }) => {
         {hr.map((ref, index) => (
           <input
             className="time-input-div-input"
+            key={index}
             type="text"
             placeholder="0"
             maxLength={1}
@@ -61,6 +62,7 @@ const SeparatedInput = ({ setInputs }) => {
         {min.map((ref, index) => (
           <input
             className="time-input-div-input"
+            key={index}
             type="text"
             placeholder="0"
             maxLength={1}
@@ -75,6 +77,7 @@ const SeparatedInput = ({ setInputs }) => {
         {sec.map((ref, index) => (
           <input
             className="time-input-div-input"
+            key={index}
             type="text"
             placeholder="0"
             maxLength={1}

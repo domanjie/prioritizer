@@ -1,8 +1,11 @@
 import "./CurrentTask.css"
 import { Begin, PauseIco } from "../Icons"
 import { useCurrentTaskStore, useTaskStore } from "../infra/hooks/useTaskStore"
+import { KillAlarmIco } from "../Icons"
 
 export const CurrentTaskControls = ({
+  soundAlarm,
+  setSoundAlarm,
   isPaused,
   setIsPaused,
   startNextTask,
@@ -18,10 +21,20 @@ export const CurrentTaskControls = ({
     currentTask.timer.start()
     setIsPaused(false)
   }
+
   return (
     <>
       {currentTask ? (
         <>
+          <button
+            onClick={() => {
+              setSoundAlarm(false)
+            }}
+            className={`ctc-btn   alm-btn ${soundAlarm && "alm-active"}`}
+          >
+            <KillAlarmIco></KillAlarmIco>
+          </button>
+          <div className="ctc-btn" />
           <button
             onClick={pauseTimer}
             className={`ctc-btn  ${isPaused && "inactive"}`}
@@ -44,6 +57,7 @@ export const CurrentTaskControls = ({
           <Begin></Begin>
         </button>
       )}
+      <></>
     </>
   )
 }

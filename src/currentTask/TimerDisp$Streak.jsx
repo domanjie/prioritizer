@@ -2,21 +2,28 @@ import { useEffect, useState } from "react"
 import { useCurrentTaskStore, useTaskStore } from "../infra/hooks/useTaskStore"
 import useStreakStore from "../infra/hooks/useStreakStore"
 
-const TimerDisp$Streak = () => {
+const TimerDisp$Streak = ({ isPaused, setSoundAlarm }) => {
   const [timeLeft, setTimeLeft] = useState(0)
   const { streak, setStreak } = useStreakStore()
   const { currentTask } = useCurrentTaskStore()
+
   useEffect(() => {
     if (!currentTask) return
-    const id = setInterval(() => {
-      const timeLeft = currentTask.timer.getTime()
-      if (streak) {
-        if (!timeLeft) setStreak(0)
+    if (isPaused) {
+      setTimeLeft(currentTask.timer.getTimeLeft() / 1000)
+      return
+    }
+    const intervalId = setInterval(() => {
+      const timeLeft = currentTask.timer.getTimeLeft()
+      if (timeLeft === 0) {
+        setSoundAlarm(true)
+        if (streak) setStreak(0)
+        clearInterval(intervalId)
       }
       setTimeLeft(timeLeft / 1000)
     }, 100)
-    return () => clearInterval(id)
-  }, [currentTask])
+    return () => clearInterval(intervalId)
+  }, [currentTask, isPaused])
   const [hr, min, sec] = convertSecs(timeLeft)
   return (
     <div className="time-input-div">

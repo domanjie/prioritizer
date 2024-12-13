@@ -84,3 +84,21 @@
   background: linear-gradient(to top, #90ee90, #ff474c);
   width: 3px;
 }
+.alm-btn {
+  transition: all 250ms ease-in-out;
+  transform: translateX(0px);
+}
+.alm-active {
+  transform: translateX(-44px);
+}
+.alm-btn svg {
+  height: 20px;
+  width: 20px;
+  color: #b50000;
+}
+.alm-btn:hover svg {
+  color: #2b2b29;
+}
+.alm-btn:hover {
+  background-color: #b50000;
+}

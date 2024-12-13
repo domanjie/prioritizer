@@ -23,13 +23,13 @@ const TaskQueue = () => {
     if (isSignedIn) {
       setTasks(tasksQuery.data || [])
     }
-  }, [tasksQuery.data])
+  }, [tasksQuery.data, isSignedIn, setTasks])
 
   return (
     <Section
       className={"task-queue-section"}
       TitleIco={<QueueIcon />}
-      title={"task queue "}
+      title={"task queue"}
     >
       <>
         {tasks?.length ? (

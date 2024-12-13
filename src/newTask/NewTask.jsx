@@ -8,7 +8,7 @@ import { useTaskStore } from "../infra/hooks/useTaskStore"
 import { useState } from "react"
 import { useMutation } from "@tanstack/react-query"
 import { a } from "../infra/axios"
-import { useQueryClient, QueryObserver } from "@tanstack/react-query"
+import { useQueryClient } from "@tanstack/react-query"
 import useAuthStore from "../infra/hooks/useAuthStore"
 const NewTask = () => {
   const queryClient = useQueryClient()
