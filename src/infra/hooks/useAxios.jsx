@@ -8,7 +8,7 @@ export const useAxios = () => {
     const responseInterceptor = a.interceptors.response.use(
       (response) => response,
       (error) => {
-        if (error?.response?.status === 401) {
+        if (error?.response?.status === 401 || error?.code === "ERR_NETWORK") {
           setIsSignedIn(false)
         }
         return Promise.reject(error)

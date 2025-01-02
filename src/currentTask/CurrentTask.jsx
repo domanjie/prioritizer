@@ -2,7 +2,6 @@ import { useEffect, useState } from "react"
 import { Target, Hourglass, GreenTick } from "../Icons"
 import Section from "../Section"
 import "./CurrentTask.css"
-import { pickHex } from "../newTask/rangeInput/RangeInput"
 import { useCompletedTaskStore } from "../infra/hooks/useCompletedTaskStore"
 import { TimeDisplay } from "../taskQueue/QueueCard"
 import { useCurrentTaskStore, useTaskStore } from "../infra/hooks/useTaskStore"
@@ -14,7 +13,7 @@ import useStreakStore from "../infra/hooks/useStreakStore"
 import { CurrentTaskControls } from "./CurrentTaskControls"
 import TimerDisp$Streak from "./TimerDisp$Streak"
 import BeepSound from "../infra/alarmSounds/bedside-clock-alarm-95792.mp3"
-
+import { getColorFromPriority } from "../infra/utils"
 const alarm = new Audio(BeepSound)
 alarm.loop = true
 alarm.volume = 0.2
