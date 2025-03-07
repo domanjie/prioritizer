@@ -3,9 +3,8 @@ import { QueryClientProvider } from "@tanstack/react-query"
 import { QueryClient } from "@tanstack/react-query"
 import { Main } from "./main/Main.jsx"
 import { Prioritizer } from "./Icons.jsx"
-import { useRef, useEffect } from "react"
-import useGoogleSSO from "./infra/hooks/useGoogleSSO.jsx"
-import useAuthStore from "./infra/hooks/useAuthStore.jsx"
+import TopMenu from "./topMenu/TopMenu.jsx"
+
 const client = new QueryClient({
   defaultOptions: {
     queries: { networkMode: "always" },
@@ -31,23 +30,4 @@ const Header = () => {
       <TopMenu></TopMenu>
     </div>
   )
-}
-const TopMenu = () => {
-  useGoogleSSO()
-  const { isSignedIn } = useAuthStore()
-  const ref = useRef()
-
-  useEffect(() => {
-    google.accounts.id.renderButton(
-      ref.current,
-      {
-        theme: "filled_black",
-        size: "medium",
-        shape: "pill",
-        type: "standard",
-      } // customization attributes
-    )
-  })
-
-  return <>{isSignedIn ? <></> : <div ref={ref}></div>}</>
 }

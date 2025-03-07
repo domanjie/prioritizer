@@ -14,9 +14,7 @@ import { CurrentTaskControls } from "./CurrentTaskControls"
 import TimerDisp$Streak from "./TimerDisp$Streak"
 import BeepSound from "../infra/alarmSounds/bedside-clock-alarm-95792.mp3"
 import { getColorFromPriority } from "../infra/utils"
-const alarm = new Audio(BeepSound)
-alarm.loop = true
-alarm.volume = 0.2
+import useAlarmStore from "../infra/hooks/useAlarmStore"
 
 const CurrentTask = () => {
   const queryClient = useQueryClient()
@@ -29,11 +27,14 @@ const CurrentTask = () => {
   const [soundAlarm, setSoundAlarm] = useState(false)
   const nextTask = peek()
   const a = useAxios()
-
+  const { alarm } = useAlarmStore()
   //play/pause alarm audio depending on the soundAlarm state
   useEffect(() => {
     soundAlarm ? alarm.play() : alarm.pause()
-  }, [soundAlarm])
+    return () => {
+      alarm.pause()
+    }
+  }, [soundAlarm, alarm])
 
   useEffect(() => {
     //retrieves current task  from  api(if signed in )

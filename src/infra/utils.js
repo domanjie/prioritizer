@@ -10,3 +10,15 @@ export function getColorFromPriority(weight) {
   ]
   return rgb
 }
+
+export function getLinearGradientCSS(ratio, leftColor, rightColor) {
+  return [
+    "-webkit-gradient(",
+    "linear, ",
+    "left top, ",
+    "right top, ",
+    "color-stop(" + ratio + ", " + leftColor + "), ",
+    "color-stop(" + ratio + ", " + rightColor + ")",
+    ")",
+  ].join("")
+}

@@ -1,4 +1,4 @@
-const RangeInput = ({ handleChange, inputs }) => {
+const RangeInput = ({ inputName, style, handleChange, value }) => {
   return (
     <div style={{ display: "flex", flexDirection: "column", rowGap: "8px" }}>
       <div className="range-input-background">
@@ -9,14 +9,8 @@ const RangeInput = ({ handleChange, inputs }) => {
           onChange={handleChange}
           min="1"
           max="100"
-          style={{
-            backgroundImage: getLinearGradientCSS(
-              inputs["priority"] / 100,
-              "rgba(0,0,0,0)",
-              "#2b2b29"
-            ),
-          }}
-          value={inputs["priority"]}
+          style={style}
+          value={value}
         />
       </div>
 
@@ -27,22 +21,10 @@ const RangeInput = ({ handleChange, inputs }) => {
           alignItems: "center",
         }}
       >
-        <p>Priority</p>
-        <div className="range-monitor">{inputs["priority"]}</div>
+        <p>{inputName}</p>
+        <div className="range-monitor">{value}</div>
       </div>
     </div>
   )
 }
 export default RangeInput
-
-function getLinearGradientCSS(ratio, leftColor, rightColor) {
-  return [
-    "-webkit-gradient(",
-    "linear, ",
-    "left top, ",
-    "right top, ",
-    "color-stop(" + ratio + ", " + leftColor + "), ",
-    "color-stop(" + ratio + ", " + rightColor + ")",
-    ")",
-  ].join("")
-}

@@ -8,6 +8,7 @@ import { useTaskStore } from "../infra/hooks/useTaskStore"
 import { useState } from "react"
 import { useMutation } from "@tanstack/react-query"
 import { a } from "../infra/axios"
+import { getLinearGradientCSS } from "../infra/utils"
 import { useQueryClient } from "@tanstack/react-query"
 import useAuthStore from "../infra/hooks/useAuthStore"
 const NewTask = () => {
@@ -51,7 +52,7 @@ const NewTask = () => {
 
     const totalTimeInSec = hr * 3600 + min * 60 + sec
     if (totalTimeInSec <= 0) {
-      console.error("time limit nost set")
+      console.error("time limit not set")
       return
     }
     newTask = {
@@ -89,7 +90,18 @@ const NewTask = () => {
           required={true}
           autoComplete="off"
         />
-        <PriorityRange handleChange={handleChange} inputs={inputs} />
+        <PriorityRange
+          inputName={"priority"}
+          handleChange={handleChange}
+          style={{
+            backgroundImage: getLinearGradientCSS(
+              inputs["priority"] / 100,
+              "rgba(0,0,0,0)",
+              "#2b2b29"
+            ),
+          }}
+          value={inputs["priority"]}
+        />
         <TimeInput setInputs={setInputs}></TimeInput>
         <button className="submit-btn">Add to Queue</button>
       </form>

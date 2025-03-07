@@ -11,12 +11,10 @@ const DDMenu = ({ setShowDDMenu, id }) => {
       queryClient.invalidateQueries("tasks")
     })
   })
-  const ref = useRef()
   useEffect(() => {
     setAnimateIn(true)
-
     const handleClick = (e) => {
-      if (e.target !== ref.current) setShowDDMenu(false)
+      setShowDDMenu(false)
     }
     document.addEventListener("click", handleClick)
     return () => {
@@ -25,11 +23,12 @@ const DDMenu = ({ setShowDDMenu, id }) => {
   }, [])
 
   return (
-    <div ref={ref} className={`DDMenu  ${animateIn && "drop-menu"} `}>
+    <div className={`DDMenu  ${animateIn && "drop-menu"} `}>
       <button style={{ paddingBottom: "3px" }}>Edit</button>
       <button
         style={{ paddingTop: "3px", color: "#F15E6C" }}
-        onClick={() => {
+        onClick={(e) => {
+          e.stopPropagation()
           deleteTask.mutate()
         }}
       >
