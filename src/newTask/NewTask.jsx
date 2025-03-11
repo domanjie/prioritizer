@@ -1,20 +1,19 @@
 import "./NewTask.css"
-
-import { EnqueueIcon } from "../Icons"
 import Section from "../Section"
 import TimeInput from "./timeInput/TimeInput"
 import PriorityRange from "./rangeInput/RangeInput"
-import { useTaskStore } from "../infra/hooks/useTaskStore"
+import { EnqueueIcon } from "../Icons"
+import { useTaskStore, useAuthStore, useAxios } from "../infra/customHooks"
 import { useState } from "react"
 import { useMutation } from "@tanstack/react-query"
-import { a } from "../infra/axios"
 import { getLinearGradientCSS } from "../infra/utils"
 import { useQueryClient } from "@tanstack/react-query"
-import useAuthStore from "../infra/hooks/useAuthStore"
+
 const NewTask = () => {
   const queryClient = useQueryClient()
   const { addTask } = useTaskStore()
   const { isSignedIn } = useAuthStore()
+  const a = useAxios()
   const defaults = {
     taskName: "",
     priority: 50,

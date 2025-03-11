@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react"
-import { useCurrentTaskStore, useTaskStore } from "../infra/hooks/useTaskStore"
-import useStreakStore from "../infra/hooks/useStreakStore"
-
+import {
+  useCurrentTaskStore,
+  useStreakStore,
+  useSettingsStore,
+} from "../infra/customHooks"
 const TimerDisp$Streak = ({ isPaused, setSoundAlarm }) => {
   const [timeLeft, setTimeLeft] = useState(0)
   const { streak, setStreak } = useStreakStore()
   const { currentTask } = useCurrentTaskStore()
-
+  const { settings } = useSettingsStore()
+  const { allowNotification } = settings
   useEffect(() => {
     if (!currentTask) return
     if (isPaused) {
@@ -17,6 +20,9 @@ const TimerDisp$Streak = ({ isPaused, setSoundAlarm }) => {
       const timeLeft = currentTask.timer.getTimeLeft()
       if (timeLeft === 0) {
         setSoundAlarm(true)
+        if (allowNotification) {
+          const notification = new Notification("test", { body: "bulaba" })
+        }
         if (streak) setStreak(0)
         clearInterval(intervalId)
       }

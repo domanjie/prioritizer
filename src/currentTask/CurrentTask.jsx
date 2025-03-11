@@ -1,20 +1,22 @@
+import "./CurrentTask.css"
+import Section from "../Section"
+import TimerDisp$Streak from "./TimerDisp$Streak"
+import Timer from "../infra/Timer"
 import { useEffect, useState } from "react"
 import { Target, Hourglass, GreenTick } from "../Icons"
-import Section from "../Section"
-import "./CurrentTask.css"
-import { useCompletedTaskStore } from "../infra/hooks/useCompletedTaskStore"
 import { TimeDisplay } from "../taskQueue/QueueCard"
-import { useCurrentTaskStore, useTaskStore } from "../infra/hooks/useTaskStore"
 import { useQueryClient } from "@tanstack/react-query"
-import Timer from "../infra/Timer"
-import useAuthStore from "../infra/hooks/useAuthStore"
-import { useAxios } from "../infra/hooks/useAxios"
-import useStreakStore from "../infra/hooks/useStreakStore"
 import { CurrentTaskControls } from "./CurrentTaskControls"
-import TimerDisp$Streak from "./TimerDisp$Streak"
-import BeepSound from "../infra/alarmSounds/bedside-clock-alarm-95792.mp3"
 import { getColorFromPriority } from "../infra/utils"
-import useAlarmStore from "../infra/hooks/useAlarmStore"
+import {
+  useCurrentTaskStore,
+  useTaskStore,
+  useCompletedTaskStore,
+  useAlarmStore,
+  useAxios,
+  useStreakStore,
+  useAuthStore,
+} from "../infra/customHooks"
 
 const CurrentTask = () => {
   const queryClient = useQueryClient()

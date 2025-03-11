@@ -8,3 +8,9 @@
 .completed-task-section {
   overflow-y: scroll;
 }
+
+@media (max-width: 992px) {
+  .completed-task-section {
+    display: none;
+  }
+}

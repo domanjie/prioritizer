@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { a } from "../infra/axios"
+import { useAxios } from "../infra/customHooks"
 
 const DDMenu = ({ setShowDDMenu, id }) => {
-  const queryClient = useQueryClient()
   const [animateIn, setAnimateIn] = useState(false)
-
+  const queryClient = useQueryClient()
+  const a = useAxios()
   const deleteTask = useMutation(async () => {
     a.delete(`api/v1/task/${id}`).then(() => {
       queryClient.invalidateQueries("tasks")

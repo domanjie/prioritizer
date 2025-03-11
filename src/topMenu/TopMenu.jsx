@@ -1,12 +1,15 @@
+import "./TopMenu.css"
 import { useRef, useEffect, useState } from "react"
-import useGoogleSSO from "../infra/hooks/useGoogleSSO.jsx"
-import useAuthStore from "../infra/hooks/useAuthStore.jsx"
 import { SettingsIco, LogoutIco, SingUpIcon } from "../Icons.jsx"
 import RangeInput from "../newTask/rangeInput/RangeInput.jsx"
 import { getLinearGradientCSS } from "../infra/utils.js"
 import { AlarmIco } from "../Icons.jsx"
-import useAlarmStore from "../infra/hooks/useAlarmStore.jsx"
-
+import {
+  useSettingsStore,
+  useAlarmStore,
+  useGoogleSSO,
+  useAuthStore,
+} from "../infra/customHooks"
 const TopMenu = () => {
   return (
     <div>
@@ -40,12 +43,15 @@ const AuthCentre = () => {
   return (
     <>
       {isSignedIn ? (
-        <button>
+        <button className="nav-btn">
           <LogoutIco />
         </button>
       ) : (
         <>
-          <button ref={controlRef}>
+          <button
+            className={`nav-btn ${isActive && "active"}`}
+            ref={controlRef}
+          >
             <SingUpIcon></SingUpIcon>
           </button>
           <DropDownFrame
@@ -63,7 +69,8 @@ const AuthCentre = () => {
 
 const Settings = () => {
   const { alarm, setVolume } = useAlarmStore()
-  const [allowNotification, setAllowNotifications] = useState(false)
+  const { settings, setAllowNotifications } = useSettingsStore()
+  const { allowNotification } = settings
   const [isActive, setIsActive] = useState(false)
   const settingsRef = useRef()
   const handleClick = () => {
@@ -77,7 +84,7 @@ const Settings = () => {
   }
   return (
     <>
-      <button className={`${isActive && "active"}`} ref={settingsRef}>
+      <button className={`nav-btn ${isActive && "active"}`} ref={settingsRef}>
         <SettingsIco></SettingsIco>
       </button>
       <DropDownFrame
@@ -117,7 +124,7 @@ const Settings = () => {
 const DropDownFrame = ({ isActive, setIsActive, controllerRef, children }) => {
   useEffect(() => {
     const handleClick = (e) => {
-      if (controllerRef.current.contains(e.target)) {
+      if (controllerRef.current?.contains(e.target)) {
         e.stopPropagation()
         setIsActive(!isActive)
       } else {

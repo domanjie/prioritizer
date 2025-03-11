@@ -1,7 +1,6 @@
 import "./CurrentTask.css"
-import { Begin, PauseIco } from "../Icons"
-import { useCurrentTaskStore, useTaskStore } from "../infra/hooks/useTaskStore"
-import { KillAlarmIco } from "../Icons"
+import { Begin, PauseIco, KillAlarmIco } from "../Icons"
+import { useCurrentTaskStore, useTaskStore } from "../infra/customHooks"
 
 export const CurrentTaskControls = ({
   soundAlarm,
