@@ -1,3 +1,6 @@
+/*
+  X-Robots-Tag: all
+
 /secure/page
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
@@ -7,5 +10,3 @@
   Access-Control-Allow-Origin: *
   X-Robots-Tag: nosnippet
 
-https://*.prioritizer.pages.dev/*
-  X-Robots-Tag: all
