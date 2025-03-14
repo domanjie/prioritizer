@@ -23,23 +23,11 @@ const TopMenu = () => {
 export default TopMenu
 
 const AuthCentre = () => {
-  useGoogleSSO()
-  const { isSignedIn } = useAuthStore()
   const googleSSOref = useRef()
+  useGoogleSSO(googleSSOref)
+  const { isSignedIn } = useAuthStore()
   const controlRef = useRef()
   const [isActive, setIsActive] = useState(false)
-  useEffect(() => {
-    google.accounts.id.renderButton(
-      googleSSOref.current,
-      {
-        theme: "filled_black",
-        size: "medium",
-        shape: "pill",
-        type: "standard",
-      } // customization attributes
-    )
-  }, [isSignedIn])
-
   return (
     <>
       {isSignedIn ? (
