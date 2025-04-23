@@ -1,12 +1,13 @@
 class Timer {
-  constructor(time) {
-    this.initTime = time
-    this.startTime = 0
-    this.timeElapsed = 0
+  constructor(duration, timeElapsed = 0) {
+    this.duration = duration
+    this.timeElapsed = timeElapsed
+    this.timeCheckpoint = 0
     this.isRunning = false
   }
+
   start() {
-    this.startTime = Date.now()
+    this.timeCheckpoint = Date.now()
     this.isRunning = true
   }
   stop() {
@@ -14,24 +15,27 @@ class Timer {
     this.updateTimeElapsed()
     this.isRunning = false
   }
-  extend(time) {
-    this.initTime += time
+  extend(duration) {
+    this.duration += duration
   }
   getTimeLeft() {
-    return this.initTime - this.getTimeElapsed()
+    return this.duration - this.getTimeElapsed()
   }
   getTimeElapsed() {
     this.updateTimeElapsed()
     return this.timeElapsed
   }
+  getDuration() {
+    return this.duration
+  }
   updateTimeElapsed() {
     if (this.isRunning) {
       this.timeElapsed = Math.min(
-        this.timeElapsed + Date.now() - this.startTime,
-        this.initTime
+        this.timeElapsed + Date.now() - this.timeCheckpoint,
+        this.duration
       )
-      //update starTime for next update
-      this.startTime = Date.now()
+      //update timeCheckpoint for next update
+      this.timeCheckpoint = Date.now()
     }
   }
 }

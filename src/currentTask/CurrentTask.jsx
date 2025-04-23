@@ -48,9 +48,11 @@ const CurrentTask = () => {
           return
         }
         const task = response.data
-        console.log(task)
-        task.timer
-          ? Object.setPrototypeOf(task.timer, Timer.prototype)
+        task.timerState
+          ? (task.timer = new Timer(
+              task.timerState.duration,
+              task.timerState.timeElapsed
+            ))
           : (task.timer = new Timer(task.time * 1000))
         setCurrentTask(task)
         setIsPaused(!task.timer.isRunning)
@@ -63,11 +65,11 @@ const CurrentTask = () => {
   useEffect(() => {
     if (currentTask && isSignedIn) {
       const intervalId = setInterval(() => {
-        const clonedTimer = { ...currentTask.timer }
-        Object.setPrototypeOf(clonedTimer, Timer.prototype)
-        // pause timer before sending to api  !important
-        clonedTimer.stop(clonedTimer)
-        a.patch("/api/v1/current", clonedTimer)
+        const timerState = {
+          duration: currentTask.timer.getDuration(),
+          timeElapsed: currentTask.timer.getTimeElapsed(),
+        }
+        a.patch("/api/v1/current", timerState)
       }, 5000)
       return () => clearInterval(intervalId)
     }
