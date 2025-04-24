@@ -1,5 +1,5 @@
 import { create } from "zustand"
-import BeepSound from "../alarmSounds/bedside-clock-alarm-95792.mp3"
+import BeepSound from "../timerSounds/timer-audio-1.mp3"
 
 var alarm = new Audio(BeepSound)
 alarm.loop = true

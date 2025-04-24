@@ -27,6 +27,11 @@
 
     <script src="https://accounts.google.com/gsi/client" async></script>
   </head>
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/sw.js")
+    }
+  </script>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
