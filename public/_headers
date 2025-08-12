@@ -1,12 +1,4 @@
 /*
   X-Robots-Tag: all
-
-/secure/page
-  X-Frame-Options: DENY
-  X-Content-Type-Options: nosniff
-  Referrer-Policy: no-referrer
-
-/static/*
-  Access-Control-Allow-Origin: *
-  X-Robots-Tag: nosnippet
+  Cross-Origin-Opener-Policy: same-origin-allow-popups
 
