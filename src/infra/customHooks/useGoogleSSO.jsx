@@ -12,6 +12,8 @@ const useGoogleSSO = (googleBtnRef) => {
     window.onload = () => {
       google.accounts.id.initialize({
         client_id: CLIENT_ID,
+        use_fedcm_for_prompt: true,
+        use_fedcm_for_button: true,
         callback: (response) => {
           a.post("/api/v1/auth/sign-in", {
             idToken: response.credential,
