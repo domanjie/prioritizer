@@ -23,7 +23,7 @@
 
 live Demo 🟢👇🏿:
 
-[![Product Name Screen Shot][product-screenshot]](https://ca0c761b.prioritizer.pages.dev/)
+[![Product Name Screen Shot][product-screenshot]](https://prioritizer.pages.dev/)
 
 Prioritizer is a fully responsive , single page, progressive web app that gives you simplistic approach to managing your tasks so you can stay on top your day⌚.
 
