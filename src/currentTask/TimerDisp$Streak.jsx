@@ -16,19 +16,31 @@ const TimerDisp$Streak = ({ isPaused, setSoundAlarm }) => {
       setTimeLeft(currentTask.timer.getTimeLeft() / 1000)
       return
     }
+    const notifier = setInterval(() => {
+      if (allowNotification) {
+        const timeLeft = currentTask.timer.getTimeLeft()
+        const taskDuration = currentTask.timer.getDuration()
+        notifyIfAppropriate(
+          Math.round(timeLeft / 1000),
+          taskDuration,
+          currentTask.taskName,
+          notifier
+        )
+      }
+    }, 1000)
     const intervalId = setInterval(() => {
       const timeLeft = currentTask.timer.getTimeLeft()
+      setTimeLeft(timeLeft / 1000)
       if (timeLeft === 0) {
-        setSoundAlarm(true)
-        if (allowNotification) {
-          const notification = new Notification("test", { body: "bulaba" })
-        }
         if (streak) setStreak(0)
+        setSoundAlarm(true)
         clearInterval(intervalId)
       }
-      setTimeLeft(timeLeft / 1000)
     }, 100)
-    return () => clearInterval(intervalId)
+    return () => {
+      clearInterval(intervalId)
+      clearInterval(notifier)
+    }
   }, [currentTask, isPaused])
   const [hr, min, sec] = convertSecs(timeLeft)
   return (
@@ -81,4 +93,88 @@ const convertSecs = (secIn) => {
   let sec = parseInt(secIn % 60, 10)
   if (sec < 10) sec = "0" + sec
   return [hr + "", min + "", sec + ""]
+}
+
+const notifyIfAppropriate = (
+  timeLeft,
+  taskDuration,
+  taskName,
+  parentInterval
+) => {
+  switch (timeLeft) {
+    case timeLeft > 3600 && taskDuration / 2:
+      {
+        new Notification(taskName, {
+          body: "You have used 50% of the time set out for this task",
+          icon: "/favicon.svg",
+        })
+      }
+      break
+    case timeLeft > 3600 && taskDuration / 4:
+      {
+        new Notification(taskName, {
+          body: "You have used 25% of the time set out for this task",
+          icon: "/favicon.svg",
+        })
+      }
+      break
+    case 3600:
+      {
+        new Notification(taskName, {
+          body: "You have  1 hour  left  for this task",
+          icon: "/favicon.svg",
+        })
+      }
+      break
+    case 1800:
+      {
+        new Notification(taskName, {
+          body: "You have 30 minutes left for this task",
+          icon: "/favicon.svg",
+        })
+      }
+      break
+    case 900:
+      {
+        new Notification(taskName, {
+          body: "You have 15 minutes left for this task",
+          icon: "/favicon.svg",
+        })
+      }
+      break
+    case 600:
+      {
+        new Notification(taskName, {
+          body: "You have 10  min left for this task",
+          icon: "/favicon.svg",
+        })
+      }
+      break
+    case 300:
+      {
+        new Notification(taskName, {
+          body: "You have 5 minute left for this task",
+          icon: "/favicon.svg",
+        })
+      }
+      break
+    case 60:
+      {
+        new Notification(taskName, {
+          body: "You have 1 minute left for this task",
+          icon: "/favicon.svg",
+        })
+      }
+      break
+
+    case 0:
+      {
+        new Notification(taskName, {
+          body: "You have elapsed time set out for this task",
+          icon: "/favicon.svg",
+        })
+        clearInterval(parentInterval)
+      }
+      break
+  }
 }
