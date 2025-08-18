@@ -7,9 +7,12 @@ const CLIENT_ID =
 
 const useGoogleSSO = (googleBtnRef) => {
   const { isSignedIn, setIsSignedIn } = useAuthStore()
-  const [documentReady, setDocumentReady] = useState(false)
+  const [gsiScriptLoaded, setGsiScriptLoaded] = useState(false)
   useEffect(() => {
-    window.onload = () => {
+    const gsiScript = document.createElement("script")
+    gsiScript.src = "https://accounts.google.com/gsi/client"
+    gsiScript.async = true
+    gsiScript.onload = () => {
       google.accounts.id.initialize({
         client_id: CLIENT_ID,
         use_fedcm_for_prompt: true,
@@ -31,14 +34,18 @@ const useGoogleSSO = (googleBtnRef) => {
           type: "standard",
         } // customization attributes
       )
-      setDocumentReady(true)
+      setGsiScriptLoaded(true)
+    }
+    document.body.appendChild(gsiScript)
+    return () => {
+      document.body.removeChild(gsiScript)
     }
   }, [])
   useEffect(() => {
-    if (!isSignedIn && documentReady) {
+    if (!isSignedIn && window.google) {
       google?.accounts?.id?.prompt()
     }
-  }, [isSignedIn, documentReady])
+  }, [isSignedIn, gsiScriptLoaded])
 }
 
 export default useGoogleSSO
