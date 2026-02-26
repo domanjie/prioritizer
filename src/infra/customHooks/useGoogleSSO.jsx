@@ -13,6 +13,17 @@ const useGoogleSSO = (googleBtnRef) => {
     gsiScript.src = "https://accounts.google.com/gsi/client"
     gsiScript.async = true
     gsiScript.onload = () => {
+      setGsiScriptLoaded(true)
+    }
+    document.body.appendChild(gsiScript)
+    return () => {
+      document.body.removeChild(gsiScript)
+    }
+  }, [])
+  useEffect(() => {
+    console.log(googleBtnRef.current)
+
+    if (!isSignedIn && gsiScriptLoaded && googleBtnRef.current) {
       google.accounts.id.initialize({
         client_id: CLIENT_ID,
         use_fedcm_for_prompt: true,
@@ -25,6 +36,7 @@ const useGoogleSSO = (googleBtnRef) => {
           })
         },
       })
+      console.log(googleBtnRef.current)
       google.accounts.id.renderButton(
         googleBtnRef.current,
         {
@@ -34,18 +46,9 @@ const useGoogleSSO = (googleBtnRef) => {
           type: "standard",
         } // customization attributes
       )
-      setGsiScriptLoaded(true)
-    }
-    document.body.appendChild(gsiScript)
-    return () => {
-      document.body.removeChild(gsiScript)
-    }
-  }, [])
-  useEffect(() => {
-    if (!isSignedIn && window.google) {
       google?.accounts?.id?.prompt()
     }
-  }, [isSignedIn, gsiScriptLoaded])
+  }, [isSignedIn, gsiScriptLoaded, googleBtnRef.current])
 }
 
 export default useGoogleSSO

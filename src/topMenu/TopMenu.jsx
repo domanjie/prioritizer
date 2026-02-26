@@ -13,7 +13,7 @@ import {
 const TopMenu = () => {
   return (
     <div>
-      <div className="top-menu">
+      <div className='top-menu'>
         <Settings></Settings>
         <AuthCentre></AuthCentre>
       </div>
@@ -23,36 +23,44 @@ const TopMenu = () => {
 export default TopMenu
 
 const AuthCentre = () => {
+  const { isSignedIn, initialize } = useAuthStore()
+  useEffect(() => {
+    initialize()
+  }, [])
   const googleSSOref = useRef()
   useGoogleSSO(googleSSOref)
-  const { isSignedIn } = useAuthStore()
   const controlRef = useRef()
   const [isActive, setIsActive] = useState(false)
-  return (
-    <>
-      {isSignedIn ? (
-        <button className="nav-btn">
+  if (isSignedIn === null) {
+    return (
+      <div>
+        <div className='spinner'></div>
+      </div>
+    )
+  } else if (isSignedIn === false) {
+    return (
+      <>
+        <button className={`nav-btn ${isActive && "active"}`} ref={controlRef}>
+          <SingUpIcon></SingUpIcon>
+        </button>
+        <DropDownFrame
+          isActive={isActive}
+          controllerRef={controlRef}
+          setIsActive={setIsActive}
+        >
+          <div className='google-div' ref={googleSSOref}></div>
+        </DropDownFrame>
+      </>
+    )
+  } else {
+    return (
+      <>
+        <button className='nav-btn'>
           <LogoutIco />
         </button>
-      ) : (
-        <>
-          <button
-            className={`nav-btn ${isActive && "active"}`}
-            ref={controlRef}
-          >
-            <SingUpIcon></SingUpIcon>
-          </button>
-          <DropDownFrame
-            isActive={isActive}
-            controllerRef={controlRef}
-            setIsActive={setIsActive}
-          >
-            <div className="google-div" ref={googleSSOref}></div>
-          </DropDownFrame>
-        </>
-      )}
-    </>
-  )
+      </>
+    )
+  }
 }
 
 const Settings = () => {
@@ -82,7 +90,7 @@ const Settings = () => {
       >
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <p>Notification</p>
-          <div className="toggle">
+          <div className='toggle'>
             <div
               onClick={handleClick}
               className={`knob ${allowNotification && "active"}`}
