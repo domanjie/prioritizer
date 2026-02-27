@@ -3,7 +3,7 @@ import { useRef, useEffect, useState } from "react"
 import { SettingsIco, LogoutIco, SingUpIcon } from "../Icons.jsx"
 import RangeInput from "../newTask/rangeInput/RangeInput.jsx"
 import { getLinearGradientCSS } from "../infra/utils.js"
-import { AlarmIco } from "../Icons.jsx"
+import { AlarmIco, LogoutIco2 } from "../Icons.jsx"
 import {
   useSettingsStore,
   useAlarmStore,
@@ -23,44 +23,73 @@ const TopMenu = () => {
 export default TopMenu
 
 const AuthCentre = () => {
-  const { isSignedIn, initialize } = useAuthStore()
+  const { isSignedIn, initialize, logout } = useAuthStore()
+
   useEffect(() => {
     initialize()
   }, [])
+
   const googleSSOref = useRef()
   useGoogleSSO(googleSSOref)
   const controlRef = useRef()
   const [isActive, setIsActive] = useState(false)
+  useEffect(() => {
+    setIsActive(false)
+  }, [isSignedIn])
   if (isSignedIn === null) {
     return (
       <div>
         <div className='spinner'></div>
       </div>
     )
-  } else if (isSignedIn === false) {
-    return (
-      <>
-        <button className={`nav-btn ${isActive && "active"}`} ref={controlRef}>
-          <SingUpIcon></SingUpIcon>
-        </button>
-        <DropDownFrame
-          isActive={isActive}
-          controllerRef={controlRef}
-          setIsActive={setIsActive}
-        >
-          <div className='google-div' ref={googleSSOref}></div>
-        </DropDownFrame>
-      </>
-    )
-  } else {
-    return (
-      <>
-        <button className='nav-btn'>
-          <LogoutIco />
-        </button>
-      </>
-    )
   }
+  const authConfig = {
+    false: {
+      icon: <SingUpIcon />,
+      content: <div className='google-div' ref={googleSSOref}></div>,
+      key: 2,
+    },
+    true: {
+      icon: <LogoutIco />,
+      content: (
+        <div
+          className='logout-btn'
+          onClick={() => {
+            logout()
+            setIsActive(false)
+          }}
+        >
+          Logout <LogoutIco2 />
+        </div>
+      ),
+      key: 1,
+    },
+  }
+
+  if (isSignedIn === null) {
+    return <div className='spinner'></div>
+  }
+  const current = authConfig[isSignedIn]
+  return (
+    <>
+      <button
+        className={`nav-btn ${isActive ? "active" : ""}`}
+        ref={controlRef}
+        onClick={() => setIsActive(!isActive)} // Ensure you have a toggle!
+      >
+        {current.icon}
+      </button>
+
+      <DropDownFrame
+        key={current.key}
+        isActive={isActive}
+        controllerRef={controlRef}
+        setIsActive={setIsActive}
+      >
+        {current.content}
+      </DropDownFrame>
+    </>
+  )
 }
 
 const Settings = () => {
@@ -80,7 +109,11 @@ const Settings = () => {
   }
   return (
     <>
-      <button className={`nav-btn ${isActive && "active"}`} ref={settingsRef}>
+      <button
+        onClick={() => setIsActive(!isActive)}
+        className={`nav-btn ${isActive && "active"}`}
+        ref={settingsRef}
+      >
         <SettingsIco></SettingsIco>
       </button>
       <DropDownFrame
@@ -120,16 +153,13 @@ const Settings = () => {
 const DropDownFrame = ({ isActive, setIsActive, controllerRef, children }) => {
   useEffect(() => {
     const handleClick = (e) => {
-      if (controllerRef.current?.contains(e.target)) {
-        e.stopPropagation()
-        setIsActive(!isActive)
-      } else {
+      if (controllerRef.current && !controllerRef.current?.contains(e.target)) {
         setIsActive(false)
       }
     }
     document.addEventListener("click", handleClick)
     return () => {
-      document.removeEventListener("click", () => handleClick)
+      document.removeEventListener("click", handleClick)
     }
   }, [])
   return (

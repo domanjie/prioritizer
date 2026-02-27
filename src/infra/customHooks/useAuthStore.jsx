@@ -9,13 +9,19 @@ const useAuthStore = create((set) => ({
       await a.get("/api/v1/task")
       set({ isSignedIn: true })
     } catch {
-      set({ isSignedIn: false })
+      if (error.response && error.response.status === 401) {
+        set({ isSignedIn: false })
+      }
     }
   },
   setIsSignedIn: (bool) => {
     set({
       isSignedIn: bool,
     })
+  },
+  logout: async () => {
+    await a.get("/api/v1/auth/logout")
+    set({ isSignedIn: false })
   },
 }))
 
