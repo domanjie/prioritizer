@@ -11,8 +11,7 @@ export const useAxios = () => {
         return response
       },
       (error) => {
-        if (error?.response?.status === 401 || error?.code === "ERR_NETWORK")
-          setIsSignedIn(false)
+        if (error?.response?.status === 401) setIsSignedIn(false)
         return Promise.reject(error)
       }
     )
