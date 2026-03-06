@@ -21,8 +21,6 @@ const useGoogleSSO = (googleBtnRef) => {
     }
   }, [])
   useEffect(() => {
-    console.log(googleBtnRef.current)
-
     if (!isSignedIn && gsiScriptLoaded && googleBtnRef.current) {
       google.accounts.id.initialize({
         client_id: CLIENT_ID,
@@ -36,7 +34,6 @@ const useGoogleSSO = (googleBtnRef) => {
           })
         },
       })
-      console.log(googleBtnRef.current)
       google.accounts.id.renderButton(
         googleBtnRef.current,
         {

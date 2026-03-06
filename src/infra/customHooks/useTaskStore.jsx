@@ -2,7 +2,7 @@ import { create } from "zustand"
 
 export const useTaskStore = create((set, get) => ({
   tasks: [],
-  setTasks: (tasks) => set((state) => ({ tasks: tasks })),
+  setTasks: (tasks) => set(() => ({ tasks: tasks })),
   addTask: (newTask) =>
     set((state) => {
       return {

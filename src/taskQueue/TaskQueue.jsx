@@ -47,7 +47,7 @@ const TaskQueueBody = () => {
     if (isSignedIn) {
       setTasks(tasksQuery.data || [])
     }
-  }, [tasksQuery.data, isSignedIn, setTasks])
+  }, [tasksQuery.data, isSignedIn])
   return (
     <>
       {tasks?.length ? (
@@ -64,7 +64,7 @@ const TaskQueueBody = () => {
           ))}
         </div>
       ) : (
-        <div className="fallback-div">You have no Task in your queue</div>
+        <div className='fallback-div'>You have no Task in your queue</div>
       )}
     </>
   )
@@ -73,7 +73,7 @@ const TaskQueueBody = () => {
 const TaskQueue$CompletedTasksComponent = () => {
   const [isTaskQueueActive, setIsTaskQueueActive] = useState(true)
   return (
-    <section className="section task-queue-section ">
+    <section className='section task-queue-section '>
       <div style={{ display: "flex", columnGap: "4px " }}>
         <button
           onClick={() => setIsTaskQueueActive(true)}

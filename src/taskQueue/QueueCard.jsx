@@ -5,9 +5,9 @@ import DDMenu from "./DDMenu"
 const QueueCard = ({ taskName, priority, time, _id }) => {
   const [showDDMenu, setShowDDMenu] = useState(false)
   return (
-    <div className="card">
+    <div className='card'>
       <button
-        className="ellipsis-btn"
+        className='ellipsis-btn'
         onClick={(e) => {
           e.stopPropagation()
           setShowDDMenu(!showDDMenu)
@@ -22,8 +22,8 @@ const QueueCard = ({ taskName, priority, time, _id }) => {
           showDDMenu={showDDMenu}
         ></DDMenu>
       )}
-      <p className="card-title">{taskName}</p>
-      <div className="card-div">
+      <p className='card-title'>{taskName}</p>
+      <div className='card-div'>
         <Hourglass style={{ height: "11px" }} />
         <TimeDisplay time={time} />
       </div>
@@ -62,6 +62,22 @@ export const TimeDisplay = ({ time: timeInSec, style }) => {
   const hr = parseInt(timeInSec / 3600)
   const min = parseInt((timeInSec % 3600) / 60)
   const sec = timeInSec % 60
+  if (!timeInSec) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          columnGap: "4px",
+          ...style,
+        }}
+      >
+        <p>
+          {0}
+          <span style={{ fontSize: "12px" }}>sec</span>
+        </p>
+      </div>
+    )
+  }
   return (
     <div
       style={{

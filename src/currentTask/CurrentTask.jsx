@@ -93,10 +93,10 @@ const CurrentTask = () => {
     setIsPaused(false)
   }
   const completeTask = async () => {
-    addCompletedTask(currentTask)
     if (isSignedIn) {
       await a.post("/api/v1/current?action=complete")
     }
+    addCompletedTask(currentTask)
     await startNextTask()
   }
 
@@ -124,8 +124,8 @@ const CurrentTask = () => {
         startNextTask={startNextTask}
       ></CurrentTaskControls>
       {currentTask ? (
-        <div className="cts-div">
-          <p className="card-title">{currentTask.taskName}</p>
+        <div className='cts-div'>
+          <p className='card-title'>{currentTask.taskName}</p>
           <div
             style={{
               display: "flex",
@@ -144,13 +144,13 @@ const CurrentTask = () => {
               completeTask()
               setSoundAlarm(false)
             }}
-            className="current-task-section-btn"
+            className='current-task-section-btn'
           >
             Task Completed <GreenTick></GreenTick>
           </button>
         </div>
       ) : (
-        <div className="fallback-div">Your current Task will appear here</div>
+        <div className='fallback-div'>Your current Task will appear here</div>
       )}
     </Section>
   )
